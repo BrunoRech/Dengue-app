@@ -1,0 +1,12 @@
+{
+  "name": "Dengue-app",
+  "displayName": "Dengue-app",
+  "expo": {
+    "name": "Dengue-app",
+    "slug": "Dengue-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
