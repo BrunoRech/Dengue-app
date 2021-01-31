@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text } from 'react-native';
+import { View, Text, CheckBox } from 'react-native';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
   Button,
   ButtonText,
+  CheckBoxContainer,
   FlexContainer,
   FormContainer,
   InputTexto,
@@ -14,11 +15,26 @@ import {
 
 const Login = ({ navigation }) => {
   const { post } = UseApi();
-  const [formData, setFormData] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [formData, setFormData] = useState({
+    email: 'email@email.com',
+    senha: '123',
+  });
 
   const handleLogin = async () => {
-    const { data } = await post('/sessoes/coordenadores', formData);
-    await AsyncStorage.setItem('token', data.token);
+    let data;
+    if (isAdmin) {
+      const response = await post('/sessoes/coordenadores', formData);
+      data = response.data;
+    } else {
+      const response = await post('/sessoes/agentes', formData);
+      data = response.data;
+    }
+    if (data && data.token) {
+      await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('isAdmin', `${isAdmin}`);
+      navigation.navigate('Dashboard');
+    }
   };
 
   return (
@@ -40,6 +56,10 @@ const Login = ({ navigation }) => {
             onChangeText={senha => setFormData({ ...formData, senha })}
             secureTextEntry
           />
+          <CheckBoxContainer>
+            <CheckBox value={isAdmin} onValueChange={setIsAdmin} />
+            <Text>Coordenador</Text>
+          </CheckBoxContainer>
         </FormContainer>
         <View>
           <Button onPress={handleLogin}>

@@ -5,12 +5,14 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
+    "lint": "eslint --fix src",
     "commit": "git-cz",
     "test": "jest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
     "axios": "^0.21.1",
@@ -31,7 +33,11 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
     "babel-jest": "~25.2.6",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.2.0",
@@ -40,14 +46,10 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4",
+    "husky": "^4.2.5",
     "jest": "~25.2.6",
     "prettier": "^2.2.1",
-    "react-test-renderer": "~16.13.1",
-    "@commitlint/cli": "^9.1.1",
-    "@commitlint/config-conventional": "^9.1.1",
-    "commitizen": "^4.1.2",
-    "husky": "^4.2.5",
-    "cz-conventional-changelog": "^3.2.0"
+    "react-test-renderer": "~16.13.1"
   },
   "config": {
     "commitizen": {

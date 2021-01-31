@@ -20,6 +20,12 @@ export const InputTexto = styled(TextInput)`
 
 export const FormContainer = styled(View)``;
 
+export const CheckBoxContainer = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+`;
+
 export const FlexContainer = styled(View)`
   display: flex;
   justify-content: center;
