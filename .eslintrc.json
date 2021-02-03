@@ -30,6 +30,8 @@
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": "off",
+    "react/jsx-one-expression-per-line":"off",
+    "react/jsx-curly-newline":"off",
     "object-curly-newline":"off",
     "implicit-arrow-linebreak":"off",
     "no-unused-expressions": "off",

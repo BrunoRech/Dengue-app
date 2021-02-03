@@ -11,7 +11,7 @@ const useApi = () => {
       if (callback) callback();
       return response;
     } catch (error) {
-      return { data: null };
+      return { data: null, error };
     }
   }, []);
 

@@ -1,9 +1,12 @@
 import { SafeAreaView, Text, View, Dimensions } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
-export const Title = styled(Text)`
-  color: red;
+export const ListTitle = styled(Text)`
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  margin: 10px 0px;
 `;
 
 export const AppContainer = styled(SafeAreaView)`
@@ -42,10 +45,27 @@ export const Button = styled(TouchableOpacity)`
   align-items: center;
 `;
 
+export const InvisibleButton = styled(Button)`
+  background-color: transparent;
+  width: 100%;
+  height: auto;
+`;
+
+export const ListItem = styled(View)`
+  border-radius: 10px;
+  width: 100%;
+  height: 100px;
+  background-color: #fff;
+  margin: 5px;
+  padding: 10px;
+`;
+
 export const ButtonText = styled(Text)`
   color: #fff;
   font-weight: 800;
   font-size: 20px;
 `;
+
+export const PageHeader = styled(View)``;
 
 export const RightFloatLink = styled(TouchableOpacity)``;
