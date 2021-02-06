@@ -5,24 +5,21 @@ import {
   Button,
   ButtonText,
   FlexContainer,
-  FormContainer,
   InputTexto,
 } from '../../styles';
 
 const Login = () => {
-  // const [formData, setFormData] = useState({});
-
   return (
     <AppContainer>
       <FlexContainer>
-        <FormContainer>
+        <View>
           <InputTexto
             placeholder="E-mail"
             autoCapitalize="none"
             autoCorrect={false}
             value=""
           />
-        </FormContainer>
+        </View>
         <View>
           <Button onPress={() => {}}>
             <ButtonText>Enviar</ButtonText>

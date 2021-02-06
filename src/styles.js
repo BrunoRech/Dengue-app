@@ -8,9 +8,7 @@ export const ListTitle = styled(Text)`
   font-size: 18px;
   margin: 10px 0px;
 `;
-
 export const AppContainer = styled(SafeAreaView)`
-  background-color: #cccc;
   width: ${Dimensions.get('window').width}px;
   height: ${Dimensions.get('window').height}px;
 `;
@@ -21,7 +19,32 @@ export const InputTexto = styled(TextInput)`
   margin-bottom: 20px;
 `;
 
-export const FormContainer = styled(View)``;
+export const DatePickerContainer = styled(View)`
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: ${Dimensions.get('window').width - 50}px;
+`;
+
+export const DetailsText = styled(Text)`
+  margin: 10px;
+  font-size: 18px;
+`;
+
+export const DetailsContainer = styled(View)`
+  margin: 10px 0px;
+  padding: 0px 15px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 5px;
+`;
+
+export const SelectContainer = styled(View)`
+  background-color: #fff;
+  width: ${Dimensions.get('window').width - 50}px;
+  margin-bottom: 20px;
+`;
 
 export const CheckBoxContainer = styled(View)`
   flex-direction: row;
@@ -34,6 +57,11 @@ export const FlexContainer = styled(View)`
   justify-content: center;
   align-items: center;
   height: 100%;
+`;
+
+export const FormContainer = styled(FlexContainer)`
+  margin-top: 20px;
+  justify-content: flex-start;
 `;
 
 export const Button = styled(TouchableOpacity)`
@@ -54,7 +82,7 @@ export const InvisibleButton = styled(Button)`
 export const ListItem = styled(View)`
   border-radius: 10px;
   width: 100%;
-  height: 100px;
+  height: auto;
   background-color: #fff;
   margin: 5px;
   padding: 10px;

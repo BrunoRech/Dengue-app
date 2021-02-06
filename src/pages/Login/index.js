@@ -8,7 +8,6 @@ import {
   ButtonText,
   CheckBoxContainer,
   FlexContainer,
-  FormContainer,
   InputTexto,
   RightFloatLink,
 } from '../../styles';
@@ -40,7 +39,7 @@ const Login = ({ navigation }) => {
   return (
     <AppContainer>
       <FlexContainer>
-        <FormContainer>
+        <View>
           <InputTexto
             placeholder="E-mail"
             autoCapitalize="none"
@@ -60,7 +59,7 @@ const Login = ({ navigation }) => {
             <CheckBox value={isAdmin} onValueChange={setIsAdmin} />
             <Text>Coordenador</Text>
           </CheckBoxContainer>
-        </FormContainer>
+        </View>
         <View>
           <Button onPress={handleLogin}>
             <ButtonText>Entrar</ButtonText>

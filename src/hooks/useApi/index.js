@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { Alert } from 'react-native';
 import api from '../../services/api';
 
 const useApi = () => {
@@ -6,11 +7,14 @@ const useApi = () => {
     try {
       const response = await func();
       if (message) {
-        // TODO
+        Alert.alert(message);
       }
       if (callback) callback();
       return response;
     } catch (error) {
+      if (error.response.data[0].msg) {
+        Alert.alert(error.response.data[0].msg);
+      }
       return { data: null, error };
     }
   }, []);

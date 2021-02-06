@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { FlatList, Text, View } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { UseApi } from '../../hooks';
 import {
   AppContainer,
   InvisibleButton,
@@ -8,24 +8,26 @@ import {
   ListTitle,
   PageHeader,
 } from '../../styles';
-import { UseApi } from '../../hooks';
 
 const Evaluations = ({ navigation }) => {
   const { get } = UseApi();
   const [evaluations, setEvaluations] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    const fetchEvaluations = async () => {
-      const { data } = await get('/avaliacoes');
-      if (data) {
-        setEvaluations(data);
-      }
-    };
-
-    fetchEvaluations();
+  const fetchEvaluations = useCallback(async () => {
+    setRefreshing(true);
+    const { data } = await get('/avaliacoes');
+    if (data) {
+      setEvaluations(data);
+    }
+    setRefreshing(false);
   }, [get]);
 
-  const renderItem = ({ id, morador, focos, rua, numero }) => (
+  useEffect(() => {
+    fetchEvaluations();
+  }, [fetchEvaluations]);
+
+  const renderItem = ({ id, focos, rua, numero }) => (
     <ListItem key={id}>
       <InvisibleButton
         onPress={() =>
@@ -36,8 +38,6 @@ const Evaluations = ({ navigation }) => {
           {rua.nome} Nº
           {numero}
         </Text>
-        <Text>{rua.bairro?.nome}</Text>
-        <Text>{morador}</Text>
         <Text>{focos} Focos</Text>
       </InvisibleButton>
     </ListItem>
@@ -50,10 +50,7 @@ const Evaluations = ({ navigation }) => {
           <InvisibleButton
             onPress={() => navigation.navigate('Nova Avaliação')}
           >
-            <ListTitle>
-              Avaliações
-              <Icon name="plus" size={22} color="#fff" />
-            </ListTitle>
+            <ListTitle>Nova Avaliação</ListTitle>
           </InvisibleButton>
         </PageHeader>
       </View>
@@ -61,6 +58,12 @@ const Evaluations = ({ navigation }) => {
         data={evaluations}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => `${item.id}`}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchEvaluations}
+          />
+        }
       />
     </AppContainer>
   );

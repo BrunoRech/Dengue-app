@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import moment from 'moment';
+import { View } from 'react-native';
 import { UseApi } from '../../hooks';
-import { AppContainer } from '../../styles';
+import { AppContainer, DetailsContainer, DetailsText } from '../../styles';
 
 const AgentDetails = ({ route }) => {
   const { get } = UseApi();
@@ -20,12 +21,20 @@ const AgentDetails = ({ route }) => {
 
   return (
     <AppContainer>
-      <View>
-        <Text>{agent.nome}</Text>
-        <Text>{agent.email}</Text>
-        <Text>{agent.telefone}</Text>
-        <Text>{agent.grupo.nome}</Text>
-      </View>
+      <DetailsContainer>
+        <View>
+          <DetailsText>Nome: {agent.nome}</DetailsText>
+          <DetailsText>E-mail: {agent.email}</DetailsText>
+          <DetailsText>Telefone: {agent.telefone}</DetailsText>
+          <DetailsText>Agente: {agent.grupo.nome}</DetailsText>
+          <DetailsText>
+            Data Nascimento: {moment(agent.dataNascimento).format('DD/MM/YYYY')}
+          </DetailsText>
+          <DetailsText>
+            Data Ingresso: {moment(agent.dataIngresso).format('DD/MM/YYYY')}
+          </DetailsText>
+        </View>
+      </DetailsContainer>
     </AppContainer>
   );
 };

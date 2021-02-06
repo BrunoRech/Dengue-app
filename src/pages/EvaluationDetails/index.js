@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { UseApi } from '../../hooks';
-import { AppContainer } from '../../styles';
+import { AppContainer, DetailsContainer, DetailsText } from '../../styles';
 
 const EvaluationDetails = ({ route }) => {
   const { get } = UseApi();
   const { evaluationId } = route.params;
-  const [evaluation, setEvaluation] = useState({});
+  const [evaluation, setEvaluation] = useState({
+    rua: { bairro: { municipio: {} } },
+  });
 
   useEffect(() => {
     const fetchEvaluation = async () => {
@@ -20,15 +22,18 @@ const EvaluationDetails = ({ route }) => {
 
   return (
     <AppContainer>
-      <View>
-        <Text>
-          {evaluation.rua?.nome} Nº
-          {evaluation.numero}
-        </Text>
-        <Text>{evaluation.rua?.bairro?.nome}</Text>
-        <Text>{evaluation.morador}</Text>
-        <Text>{evaluation.focos} Focos</Text>
-      </View>
+      <DetailsContainer>
+        <View>
+          <DetailsText>
+            Município: {evaluation.rua.bairro.municipio.nome}
+          </DetailsText>
+          <DetailsText>Bairro: {evaluation.rua.bairro.nome}</DetailsText>
+          <DetailsText>Rua: {evaluation.rua.nome}</DetailsText>
+          <DetailsText>Número: {evaluation.numero}</DetailsText>
+          <DetailsText>Morador: {evaluation.morador}</DetailsText>
+          <DetailsText>N° Focos: {evaluation.focos} Focos</DetailsText>
+        </View>
+      </DetailsContainer>
     </AppContainer>
   );
 };
