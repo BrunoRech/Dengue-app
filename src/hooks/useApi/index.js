@@ -13,15 +13,16 @@ const useApi = () => {
       if (callback) callback();
       return response;
     } catch (error) {
-      if (error.response.data[0].msg) {
-        Alert.alert(error.response.data[0].msg);
+      const dataError = error.response.data;
+      if (dataError[0] && dataError[0].msg) {
+        Alert.alert(dataError[0].msg);
       }
       return { data: null, error };
     }
   }, []);
 
   return {
-    delete: useCallback(
+    destroy: useCallback(
       (url, message, callback) => {
         return process(() => api.delete(url), message, callback);
       },

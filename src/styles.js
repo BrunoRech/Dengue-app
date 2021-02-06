@@ -85,11 +85,15 @@ export const InvisibleButton = styled(Button)`
 
 export const ListItem = styled(View)`
   border-radius: 10px;
-  width: 100%;
+  width: auto;
   height: auto;
   background-color: #fff;
   margin: 5px;
-  padding: 10px;
+  padding: 10px 15px 10px 0px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const ButtonText = styled(Text)`

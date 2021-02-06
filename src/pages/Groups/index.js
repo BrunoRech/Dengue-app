@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -10,14 +11,14 @@ import {
 } from '../../styles';
 
 const Groups = ({ navigation }) => {
-  const { get } = UseApi();
-  const [streets, setStreets] = useState([]);
+  const { get, destroy } = UseApi();
+  const [groups, setGroups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchStreets = useCallback(async () => {
     setRefreshing(true);
     const { data } = await get('/grupos');
-    setStreets(data);
+    setGroups(data);
     setRefreshing(false);
   }, [get]);
 
@@ -25,12 +26,36 @@ const Groups = ({ navigation }) => {
     fetchStreets();
   }, [fetchStreets]);
 
+  const destroyGroup = async id => {
+    await destroy(`/grupos/${id}`, '', () => {
+      setGroups(groups.filter(group => group.id !== id));
+    });
+  };
+
+  const onDeletePressed = (nome, id) => {
+    Alert.alert(
+      'Excluir Grupo',
+      `Você deseja excluir o grupo ${nome}?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        { text: 'Sim', onPress: () => destroyGroup(id) },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const renderItem = ({ nome, id }) => (
     <ListItem key={id}>
       <InvisibleButton
         onPress={() => navigation.navigate('Detalhes Grupo', { groupId: id })}
       >
         <Text>{nome}</Text>
+      </InvisibleButton>
+      <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
+        <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>
     </ListItem>
   );
@@ -45,7 +70,7 @@ const Groups = ({ navigation }) => {
         </PageHeader>
       </View>
       <FlatList
-        data={streets}
+        data={groups}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => `${item.id}`}
         refreshControl={

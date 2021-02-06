@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -10,7 +11,7 @@ import {
 } from '../../styles';
 
 const Districts = ({ navigation }) => {
-  const { get } = UseApi();
+  const { get, destroy } = UseApi();
   const [districts, setDistricts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -25,6 +26,27 @@ const Districts = ({ navigation }) => {
     fetchDistricts();
   }, [fetchDistricts]);
 
+  const destroyDistrict = async id => {
+    await destroy(`/bairros/${id}`, '', () => {
+      setDistricts(districts.filter(district => district.id !== id));
+    });
+  };
+
+  const onDeletePressed = (nome, id) => {
+    Alert.alert(
+      'Excluir Bairro',
+      `Você deseja o bairro ${nome}?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        { text: 'Sim', onPress: () => destroyDistrict(id) },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const renderItem = ({ nome, municipio, id }) => (
     <ListItem key={id}>
       <InvisibleButton
@@ -32,8 +54,13 @@ const Districts = ({ navigation }) => {
           navigation.navigate('Detalhes Bairro', { districtId: id })
         }
       >
-        <Text>{nome}</Text>
-        <Text>{municipio.nome}</Text>
+        <View>
+          <Text>{nome}</Text>
+          <Text>{municipio.nome}</Text>
+        </View>
+      </InvisibleButton>
+      <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
+        <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>
     </ListItem>
   );

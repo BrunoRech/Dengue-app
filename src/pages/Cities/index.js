@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -10,7 +11,7 @@ import {
 } from '../../styles';
 
 const Cities = ({ navigation }) => {
-  const { get } = UseApi();
+  const { get, destroy } = UseApi();
   const [cities, setCities] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -25,6 +26,27 @@ const Cities = ({ navigation }) => {
     fetchCities();
   }, [fetchCities]);
 
+  const destroyCity = async id => {
+    await destroy(`/municipios/${id}`, '', () => {
+      setCities(cities.filter(city => city.id !== id));
+    });
+  };
+
+  const onDeletePressed = (nome, id) => {
+    Alert.alert(
+      'Excluir Município',
+      `Você deseja o município ${nome}?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        { text: 'Sim', onPress: () => destroyCity(id) },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const renderItem = ({ nome, id }) => (
     <ListItem key={id}>
       <InvisibleButton
@@ -33,6 +55,9 @@ const Cities = ({ navigation }) => {
         }
       >
         <Text>{nome}</Text>
+      </InvisibleButton>
+      <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
+        <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>
     </ListItem>
   );

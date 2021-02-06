@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -10,7 +11,7 @@ import {
 } from '../../styles';
 
 const Evaluations = ({ navigation }) => {
-  const { get } = UseApi();
+  const { get, destroy } = UseApi();
   const [evaluations, setEvaluations] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -27,6 +28,27 @@ const Evaluations = ({ navigation }) => {
     fetchEvaluations();
   }, [fetchEvaluations]);
 
+  const destroyEvaluation = async id => {
+    await destroy(`/avaliacoes/${id}`, '', () => {
+      setEvaluations(evaluations.filter(evaluation => evaluation.id !== id));
+    });
+  };
+
+  const onDeletePressed = (rua, numero, id) => {
+    Alert.alert(
+      'Excluir Avaliação',
+      `Você deseja excluir a avaliação da rua: ${rua}, Nº ${numero}? ?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        { text: 'Sim', onPress: () => destroyEvaluation(id) },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const renderItem = ({ id, focos, rua, numero }) => (
     <ListItem key={id}>
       <InvisibleButton
@@ -34,11 +56,16 @@ const Evaluations = ({ navigation }) => {
           navigation.navigate('Detalhes Avaliação', { evaluationId: id })
         }
       >
-        <Text>
-          {rua.nome} Nº
-          {numero}
-        </Text>
-        <Text>{focos} Focos</Text>
+        <View>
+          <Text>
+            {rua.nome} Nº
+            {numero}
+          </Text>
+          <Text>{focos} Focos</Text>
+        </View>
+      </InvisibleButton>
+      <InvisibleButton onPress={() => onDeletePressed(rua.nome, numero, id)}>
+        <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>
     </ListItem>
   );
