@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import api from '../../services/api';
+import { getObjectDiff } from '../../utils';
 
 const useApi = () => {
   const process = useCallback(async (func, message, callback) => {
@@ -42,8 +43,12 @@ const useApi = () => {
     ),
 
     put: useCallback(
-      (url, body, message) => {
-        return process(() => api.put(url, body), message);
+      (url, body, oldBody, message) => {
+        const diff = getObjectDiff(body, oldBody);
+        if (Object.keys(diff).length === 0) {
+          return Alert.alert('Nenhuma alteração detectada');
+        }
+        return process(() => api.put(url, diff), message);
       },
       [process],
     ),

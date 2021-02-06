@@ -8,7 +8,7 @@ import {
   InputTexto,
 } from '../../styles';
 
-const Login = () => {
+const ForgotPass = () => {
   return (
     <AppContainer>
       <FlexContainer>
@@ -30,4 +30,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPass;

@@ -38,6 +38,9 @@ export const DetailsContainer = styled(View)`
   width: 100%;
   background-color: #fff;
   border-radius: 5px;
+  justify-content: space-between;
+  flex-direction: row;
+  display: flex;
 `;
 
 export const SelectContainer = styled(View)`

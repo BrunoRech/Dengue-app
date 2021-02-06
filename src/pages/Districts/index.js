@@ -9,28 +9,31 @@ import {
   PageHeader,
 } from '../../styles';
 
-const Streets = ({ navigation }) => {
+const Districts = ({ navigation }) => {
   const { get } = UseApi();
-  const [streets, setStreets] = useState([]);
+  const [districts, setDistricts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchStreets = useCallback(async () => {
+  const fetchDistricts = useCallback(async () => {
     setRefreshing(true);
-    const { data } = await get('/ruas');
-    setStreets(data);
+    const { data } = await get('/bairros');
+    setDistricts(data);
     setRefreshing(false);
   }, [get]);
 
   useEffect(() => {
-    fetchStreets();
-  }, [fetchStreets]);
+    fetchDistricts();
+  }, [fetchDistricts]);
 
-  const renderItem = ({ nome, id }) => (
+  const renderItem = ({ nome, municipio, id }) => (
     <ListItem key={id}>
       <InvisibleButton
-        onPress={() => navigation.navigate('Detalhes Rua', { streetId: id })}
+        onPress={() =>
+          navigation.navigate('Detalhes Bairro', { districtId: id })
+        }
       >
         <Text>{nome}</Text>
+        <Text>{municipio.nome}</Text>
       </InvisibleButton>
     </ListItem>
   );
@@ -39,24 +42,24 @@ const Streets = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <InvisibleButton onPress={() => navigation.navigate('Nova Rua')}>
-            <ListTitle>Nova Rua</ListTitle>
+          <InvisibleButton onPress={() => navigation.navigate('Novo Bairro')}>
+            <ListTitle>Novo Bairro</ListTitle>
           </InvisibleButton>
-          <InvisibleButton onPress={() => navigation.navigate('Bairros')}>
-            <ListTitle>Bairros</ListTitle>
+          <InvisibleButton onPress={() => navigation.navigate('Municípios')}>
+            <ListTitle>Municípios</ListTitle>
           </InvisibleButton>
         </PageHeader>
       </View>
       <FlatList
-        data={streets}
+        data={districts}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => `${item.id}`}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={fetchStreets} />
+          <RefreshControl refreshing={refreshing} onRefresh={fetchDistricts} />
         }
       />
     </AppContainer>
   );
 };
 
-export default Streets;
+export default Districts;

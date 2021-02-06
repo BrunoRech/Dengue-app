@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
-import { AppContainer, DetailsContainer, DetailsText } from '../../styles';
+import {
+  AppContainer,
+  DetailsContainer,
+  DetailsText,
+  InvisibleButton,
+} from '../../styles';
 
-const EvaluationDetails = ({ route }) => {
+const EvaluationDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { evaluationId } = route.params;
   const [evaluation, setEvaluation] = useState({
@@ -33,6 +39,15 @@ const EvaluationDetails = ({ route }) => {
           <DetailsText>Morador: {evaluation.morador}</DetailsText>
           <DetailsText>N° Focos: {evaluation.focos} Focos</DetailsText>
         </View>
+        <InvisibleButton
+          onPress={() =>
+            navigation.navigate('Alterar Avaliação', {
+              evaluationId: evaluation.id,
+            })
+          }
+        >
+          <Icon name="pencil" size={24} color="#000" />
+        </InvisibleButton>
       </DetailsContainer>
     </AppContainer>
   );

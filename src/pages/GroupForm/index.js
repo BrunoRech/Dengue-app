@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -8,14 +8,31 @@ import {
   InputTexto,
 } from '../../styles';
 
-const GroupForm = () => {
-  const { post } = UseApi();
+const GroupForm = ({ route }) => {
+  const { groupId } = route.params || {};
+  const { post, get, put } = UseApi();
   const [formData, setFormData] = useState({});
+  const [oldGroup, setOldGroup] = useState({});
+
+  useEffect(() => {
+    const fetchGroup = async () => {
+      const { data } = await get(`/grupos/${groupId}`);
+      setFormData(data);
+      setOldGroup(data);
+    };
+    if (groupId) {
+      fetchGroup();
+    }
+  }, [get, groupId]);
 
   const handleSubmit = async () => {
-    const { data } = await post('/grupos', formData);
-    if (data) {
-      setFormData({});
+    if (groupId) {
+      await put(`/grupos/${groupId}`, formData, oldGroup);
+    } else {
+      const { data } = await post('/grupos', formData);
+      if (data) {
+        setFormData({});
+      }
     }
   };
 
@@ -30,7 +47,7 @@ const GroupForm = () => {
           value={formData.nome}
         />
         <Button onPress={handleSubmit}>
-          <ButtonText>Cadastrar</ButtonText>
+          <ButtonText>{groupId ? 'Alterar' : 'Cadastrar'}</ButtonText>
         </Button>
       </FormContainer>
     </AppContainer>

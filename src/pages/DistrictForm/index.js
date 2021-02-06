@@ -10,9 +10,11 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const DistrictForm = () => {
-  const { post, get } = UseApi();
+const DistrictForm = ({ route }) => {
+  const { districtId } = route.params || {};
+  const { post, get, put } = UseApi();
   const [formData, setFormData] = useState({});
+  const [oldDistrict, setOldDistrict] = useState({});
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
@@ -29,10 +31,29 @@ const DistrictForm = () => {
     fetchDistricts();
   }, [get]);
 
+  useEffect(() => {
+    const fetchDistrict = async () => {
+      const { data } = await get(`/bairros/${districtId}`);
+      const oldData = {
+        nome: data.nome,
+        municipioId: data.municipio.id,
+      };
+      setFormData(oldData);
+      setOldDistrict(oldData);
+    };
+    if (districtId) {
+      fetchDistrict();
+    }
+  }, [get, districtId]);
+
   const handleSubmit = async () => {
-    const { data } = await post('/bairros', formData);
-    if (data) {
-      setFormData({});
+    if (districtId) {
+      await put(`/bairros/${districtId}`, formData, oldDistrict);
+    } else {
+      const { data } = await post('/bairros', formData);
+      if (data) {
+        setFormData({});
+      }
     }
   };
 
@@ -60,7 +81,7 @@ const DistrictForm = () => {
           />
         </SelectContainer>
         <Button onPress={handleSubmit}>
-          <ButtonText>Cadastrar</ButtonText>
+          <ButtonText>{districtId ? 'Alterar' : 'Cadastrar'}</ButtonText>
         </Button>
       </FormContainer>
     </AppContainer>

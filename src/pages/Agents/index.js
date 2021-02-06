@@ -44,8 +44,8 @@ const Agents = ({ navigation }) => {
           <InvisibleButton onPress={() => navigation.navigate('Novo Agente')}>
             <ListTitle>Novo Agente</ListTitle>
           </InvisibleButton>
-          <InvisibleButton onPress={() => navigation.navigate('Novo Grupo')}>
-            <ListTitle>Novo Grupo</ListTitle>
+          <InvisibleButton onPress={() => navigation.navigate('Grupos')}>
+            <ListTitle>Grupos</ListTitle>
           </InvisibleButton>
         </PageHeader>
       </View>

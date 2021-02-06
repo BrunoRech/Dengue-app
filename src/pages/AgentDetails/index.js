@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import { View } from 'react-native';
 import { UseApi } from '../../hooks';
-import { AppContainer, DetailsContainer, DetailsText } from '../../styles';
+import {
+  AppContainer,
+  DetailsContainer,
+  DetailsText,
+  InvisibleButton,
+} from '../../styles';
 
-const AgentDetails = ({ route }) => {
+const AgentDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { agentId } = route.params;
   const [agent, setAgent] = useState({ grupo: {} });
@@ -34,6 +40,13 @@ const AgentDetails = ({ route }) => {
             Data Ingresso: {moment(agent.dataIngresso).format('DD/MM/YYYY')}
           </DetailsText>
         </View>
+        <InvisibleButton
+          onPress={() =>
+            navigation.navigate('Alterar Agente', { agentId: agent.id })
+          }
+        >
+          <Icon name="pencil" size={24} color="#000" />
+        </InvisibleButton>
       </DetailsContainer>
     </AppContainer>
   );

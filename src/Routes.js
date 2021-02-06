@@ -19,6 +19,12 @@ import {
   CityForm,
   StreetDetails,
   GroupForm,
+  Groups,
+  GroupDetails,
+  Districts,
+  DistrictDetails,
+  Cities,
+  CityDetails,
 } from './pages';
 
 const Routes = () => {
@@ -66,6 +72,12 @@ const Routes = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgotPass" component={ForgotPass} />
         <Stack.Screen name="Dashboard" component={TabStack} />
+        <Stack.Screen name="Alterar Agente" component={AgentForm} />
+        <Stack.Screen name="Alterar Avaliação" component={EvaluationForm} />
+        <Stack.Screen name="Alterar Grupo" component={GroupForm} />
+        <Stack.Screen name="Alterar Bairro" component={DistrictForm} />
+        <Stack.Screen name="Alterar Município" component={CityForm} />
+        <Stack.Screen name="Alterar Rua" component={StreetForm} />
         <Stack.Screen name="Novo Agente" component={AgentForm} />
         <Stack.Screen name="Nova Avaliação" component={EvaluationForm} />
         <Stack.Screen name="Nova Rua" component={StreetForm} />
@@ -75,6 +87,12 @@ const Routes = () => {
         <Stack.Screen name="Detalhes Agente" component={AgentDetails} />
         <Stack.Screen name="Detalhes Rua" component={StreetDetails} />
         <Stack.Screen name="Detalhes Avaliação" component={EvaluationDetails} />
+        <Stack.Screen name="Detalhes Grupo" component={GroupDetails} />
+        <Stack.Screen name="Detalhes Bairro" component={DistrictDetails} />
+        <Stack.Screen name="Detalhes Município" component={CityDetails} />
+        <Stack.Screen name="Grupos" component={Groups} />
+        <Stack.Screen name="Bairros" component={Districts} />
+        <Stack.Screen name="Municípios" component={Cities} />
       </Stack.Navigator>
     </NavigationContainer>
   );

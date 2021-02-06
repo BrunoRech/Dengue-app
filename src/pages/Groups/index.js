@@ -9,14 +9,14 @@ import {
   PageHeader,
 } from '../../styles';
 
-const Streets = ({ navigation }) => {
+const Groups = ({ navigation }) => {
   const { get } = UseApi();
   const [streets, setStreets] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchStreets = useCallback(async () => {
     setRefreshing(true);
-    const { data } = await get('/ruas');
+    const { data } = await get('/grupos');
     setStreets(data);
     setRefreshing(false);
   }, [get]);
@@ -28,7 +28,7 @@ const Streets = ({ navigation }) => {
   const renderItem = ({ nome, id }) => (
     <ListItem key={id}>
       <InvisibleButton
-        onPress={() => navigation.navigate('Detalhes Rua', { streetId: id })}
+        onPress={() => navigation.navigate('Detalhes Grupo', { groupId: id })}
       >
         <Text>{nome}</Text>
       </InvisibleButton>
@@ -39,11 +39,8 @@ const Streets = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <InvisibleButton onPress={() => navigation.navigate('Nova Rua')}>
-            <ListTitle>Nova Rua</ListTitle>
-          </InvisibleButton>
-          <InvisibleButton onPress={() => navigation.navigate('Bairros')}>
-            <ListTitle>Bairros</ListTitle>
+          <InvisibleButton onPress={() => navigation.navigate('Novo Grupo')}>
+            <ListTitle>Novo Grupo</ListTitle>
           </InvisibleButton>
         </PageHeader>
       </View>
@@ -59,4 +56,4 @@ const Streets = ({ navigation }) => {
   );
 };
 
-export default Streets;
+export default Groups;

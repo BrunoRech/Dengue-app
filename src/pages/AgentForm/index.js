@@ -14,9 +14,11 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const AgentForm = () => {
-  const { post, get } = UseApi();
+const AgentForm = ({ route }) => {
+  const { agentId } = route.params || {};
+  const { post, get, put } = UseApi();
   const [formData, setFormData] = useState({});
+  const [oldAgent, setOldAgent] = useState({});
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
@@ -29,19 +31,54 @@ const AgentForm = () => {
     fetchGroups();
   }, [get]);
 
+  useEffect(() => {
+    const fetchAgent = async () => {
+      const { data } = await get(`/agentes/${agentId}`);
+      const oldData = {
+        nome: data.nome,
+        email: data.email,
+        cpf: data.cpf,
+        telefone: data.telefone,
+        dataIngresso: moment(data.dataIngresso).format('DD/MM/YYYY'),
+        dataNascimento: moment(data.dataNascimento).format('DD/MM/YYYY'),
+        grupoId: data.grupo.id,
+      };
+      setFormData(oldData);
+      setOldAgent(oldData);
+    };
+    if (agentId) {
+      fetchAgent();
+    }
+  }, [get, agentId]);
+
   const handleSubmit = async () => {
-    const { data } = await post('/agentes', {
-      ...formData,
-      dataNascimento: moment(formData.dataNascimento, 'DD/MM/YYYY').format(
-        'MM/DD/YYYY',
-      ),
-      dataIngresso: moment(formData.dataIngresso, 'DD/MM/YYYY').format(
-        'MM/DD/YYYY',
-      ),
-      grupoId: 1,
-    });
-    if (data) {
-      setFormData({});
+    if (agentId) {
+      await put(
+        `/agentes/${agentId}`,
+        {
+          ...formData,
+          dataNascimento: moment(formData.dataNascimento, 'DD/MM/YYYY').format(
+            'MM/DD/YYYY',
+          ),
+          dataIngresso: moment(formData.dataIngresso, 'DD/MM/YYYY').format(
+            'MM/DD/YYYY',
+          ),
+        },
+        oldAgent,
+      );
+    } else {
+      const { data } = await post('/agentes', {
+        ...formData,
+        dataNascimento: moment(formData.dataNascimento, 'DD/MM/YYYY').format(
+          'MM/DD/YYYY',
+        ),
+        dataIngresso: moment(formData.dataIngresso, 'DD/MM/YYYY').format(
+          'MM/DD/YYYY',
+        ),
+      });
+      if (data) {
+        setFormData({});
+      }
     }
   };
 
@@ -119,7 +156,7 @@ const AgentForm = () => {
           </View>
         </DatePickerContainer>
         <Button onPress={handleSubmit}>
-          <ButtonText>Cadastrar</ButtonText>
+          <ButtonText>{agentId ? 'Alterar' : 'Cadastrar'}</ButtonText>
         </Button>
       </FormContainer>
     </AppContainer>

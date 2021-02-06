@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -8,14 +8,31 @@ import {
   InputTexto,
 } from '../../styles';
 
-const DistrictForm = () => {
-  const { post } = UseApi();
+const CityForm = ({ route }) => {
+  const { cityId } = route.params || {};
+  const { post, put, get } = UseApi();
   const [formData, setFormData] = useState({});
+  const [oldCity, setOldCity] = useState({});
+
+  useEffect(() => {
+    const fetchCity = async () => {
+      const { data } = await get(`/municipios/${cityId}`);
+      setFormData(data);
+      setOldCity(data);
+    };
+    if (cityId) {
+      fetchCity();
+    }
+  }, [get, cityId]);
 
   const handleSubmit = async () => {
-    const { data } = await post('/municipios', formData);
-    if (data) {
-      setFormData({});
+    if (cityId) {
+      await put(`/municipios/${cityId}`, formData, oldCity);
+    } else {
+      const { data } = await post('/municipios', formData);
+      if (data) {
+        setFormData({});
+      }
     }
   };
 
@@ -30,11 +47,11 @@ const DistrictForm = () => {
           value={formData.nome}
         />
         <Button onPress={handleSubmit}>
-          <ButtonText>Cadastrar</ButtonText>
+          <ButtonText>{cityId ? 'Alterar' : 'Cadastrar'}</ButtonText>
         </Button>
       </FormContainer>
     </AppContainer>
   );
 };
 
-export default DistrictForm;
+export default CityForm;

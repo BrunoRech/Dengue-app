@@ -10,9 +10,11 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const AgentForm = () => {
-  const { post, get } = UseApi();
+const EvaluationForm = ({ route }) => {
+  const { evaluationId } = route.params || {};
+  const { post, get, put } = UseApi();
   const [formData, setFormData] = useState({});
+  const [oldEvaluation, setOldEvaluation] = useState({});
   const [agents, setAgents] = useState([]);
   const [streets, setStreets] = useState([]);
 
@@ -34,10 +36,34 @@ const AgentForm = () => {
     fetchStreets();
   }, [get]);
 
+  useEffect(() => {
+    const fetchEvaluation = async () => {
+      const { data } = await get(`/avaliacoes/${evaluationId}`);
+      const oldData = {
+        morador: data.morador,
+        focos: `${data.focos}`,
+        numero: `${data.numero}`,
+        horario: data.horario,
+        ruaId: data.rua.id,
+        agenteId: data.agente.id,
+      };
+
+      setFormData(oldData);
+      setOldEvaluation(oldData);
+    };
+    if (evaluationId) {
+      fetchEvaluation();
+    }
+  }, [get, evaluationId]);
+
   const handleSubmit = async () => {
-    const { data } = await post('/avaliacoes', formData);
-    if (data) {
-      setFormData({});
+    if (evaluationId) {
+      await put(`/avaliacoes/${evaluationId}`, formData, oldEvaluation);
+    } else {
+      const { data } = await post('/avaliacoes', formData);
+      if (data) {
+        setFormData({});
+      }
     }
   };
 
@@ -95,11 +121,11 @@ const AgentForm = () => {
           onChangeText={horario => setFormData({ ...formData, horario })}
         />
         <Button onPress={handleSubmit}>
-          <ButtonText>Cadastrar</ButtonText>
+          <ButtonText>{evaluationId ? 'Alterar' : 'Cadastrar'}</ButtonText>
         </Button>
       </FormContainer>
     </AppContainer>
   );
 };
 
-export default AgentForm;
+export default EvaluationForm;

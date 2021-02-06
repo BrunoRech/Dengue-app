@@ -9,32 +9,30 @@ import {
   InvisibleButton,
 } from '../../styles';
 
-const StreetDetails = ({ route, navigation }) => {
+const CityDetails = ({ route, navigation }) => {
   const { get } = UseApi();
-  const { streetId } = route.params;
-  const [street, setStreet] = useState({ bairro: { municipio: {} } });
+  const { cityId } = route.params;
+  const [city, setCity] = useState({});
 
   useEffect(() => {
-    const fetchStreet = async () => {
-      const { data } = await get(`/ruas/${streetId}`);
+    const fetchCity = async () => {
+      const { data } = await get(`/municipios/${cityId}`);
       if (data) {
-        setStreet(data);
+        setCity(data);
       }
     };
-    fetchStreet();
-  }, [get, streetId]);
+    fetchCity();
+  }, [get, cityId]);
 
   return (
     <AppContainer>
       <DetailsContainer>
         <View>
-          <DetailsText>Nome: {street.nome}</DetailsText>
-          <DetailsText>Bairro: {street.bairro.nome}</DetailsText>
-          <DetailsText>Município: {street.bairro.municipio.nome}</DetailsText>
+          <DetailsText>Nome: {city.nome}</DetailsText>
         </View>
         <InvisibleButton
           onPress={() =>
-            navigation.navigate('Alterar Rua', { streetId: street.id })
+            navigation.navigate('Alterar Município', { cityId: city.id })
           }
         >
           <Icon name="pencil" size={24} color="#000" />
@@ -44,4 +42,4 @@ const StreetDetails = ({ route, navigation }) => {
   );
 };
 
-export default StreetDetails;
+export default CityDetails;
