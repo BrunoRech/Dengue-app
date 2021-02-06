@@ -77,6 +77,7 @@ export const InvisibleButton = styled(Button)`
   background-color: transparent;
   width: 100%;
   height: auto;
+  margin: 5px 10px;
 `;
 
 export const ListItem = styled(View)`
@@ -94,6 +95,10 @@ export const ButtonText = styled(Text)`
   font-size: 20px;
 `;
 
-export const PageHeader = styled(View)``;
+export const PageHeader = styled(View)`
+  flex-flow: row;
+  justify-content: center;
+  margin: 5px 10px;
+`;
 
 export const RightFloatLink = styled(TouchableOpacity)``;

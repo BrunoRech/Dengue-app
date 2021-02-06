@@ -13,6 +13,12 @@ import {
   EvaluationDetails,
   AgentForm,
   EvaluationForm,
+  Streets,
+  StreetForm,
+  DistrictForm,
+  CityForm,
+  StreetDetails,
+  GroupForm,
 } from './pages';
 
 const Routes = () => {
@@ -35,6 +41,9 @@ const Routes = () => {
             case 'Avaliações':
               iconName = 'book';
               break;
+            case 'Endereços':
+              iconName = 'map';
+              break;
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -47,6 +56,7 @@ const Routes = () => {
       <Tab.Screen name="Dashboard" component={Dashboard} />
       <Tab.Screen name="Agentes" component={Agents} />
       <Tab.Screen name="Avaliações" component={Evaluations} />
+      <Tab.Screen name="Endereços" component={Streets} />
     </Tab.Navigator>
   );
 
@@ -58,7 +68,12 @@ const Routes = () => {
         <Stack.Screen name="Dashboard" component={TabStack} />
         <Stack.Screen name="Novo Agente" component={AgentForm} />
         <Stack.Screen name="Nova Avaliação" component={EvaluationForm} />
+        <Stack.Screen name="Nova Rua" component={StreetForm} />
+        <Stack.Screen name="Novo Bairro" component={DistrictForm} />
+        <Stack.Screen name="Novo Município" component={CityForm} />
+        <Stack.Screen name="Novo Grupo" component={GroupForm} />
         <Stack.Screen name="Detalhes Agente" component={AgentDetails} />
+        <Stack.Screen name="Detalhes Rua" component={StreetDetails} />
         <Stack.Screen name="Detalhes Avaliação" component={EvaluationDetails} />
       </Stack.Navigator>
     </NavigationContainer>
