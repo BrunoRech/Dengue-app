@@ -1,4 +1,10 @@
-import { SafeAreaView, Text, View, Dimensions } from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Dimensions,
+  ImageBackground,
+} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
@@ -8,6 +14,17 @@ export const ListTitle = styled(Text)`
   font-size: 18px;
   margin: 10px 0px;
 `;
+
+export const BlackText = styled(Text)`
+  color: #000;
+`;
+
+export const Logo = styled(ImageBackground)`
+  width: 200px;
+  height: 200px;
+  margin-bottom: 60px;
+`;
+
 export const AppContainer = styled(SafeAreaView)`
   width: ${Dimensions.get('window').width}px;
   height: ${Dimensions.get('window').height}px;
@@ -17,6 +34,8 @@ export const InputTexto = styled(TextInput)`
   background-color: #fff;
   width: ${Dimensions.get('window').width - 50}px;
   margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: 18px;
 `;
 
 export const DatePickerContainer = styled(View)`
@@ -27,9 +46,19 @@ export const DatePickerContainer = styled(View)`
   width: ${Dimensions.get('window').width - 50}px;
 `;
 
+export const DetailsPropsContainer = styled(View)`
+  flex-flow: row;
+  margin: 5px 0px;
+`;
+
 export const DetailsText = styled(Text)`
-  margin: 10px;
+  margin: 0px 5px;
   font-size: 18px;
+  color: #000;
+`;
+
+export const DetailsTitle = styled(DetailsText)`
+  font-weight: bold;
 `;
 
 export const DetailsContainer = styled(View)`
@@ -53,6 +82,8 @@ export const CheckBoxContainer = styled(View)`
   flex-direction: row;
   align-items: center;
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
 `;
 
 export const FlexContainer = styled(View)`
@@ -62,6 +93,12 @@ export const FlexContainer = styled(View)`
   height: 100%;
 `;
 
+export const FlexContainerMini = styled(FlexContainer)`
+  height: auto;
+  flex-flow: row;
+  justify-content: space-between;
+`;
+
 export const FormContainer = styled(FlexContainer)`
   margin-top: 20px;
   justify-content: flex-start;
@@ -69,14 +106,41 @@ export const FormContainer = styled(FlexContainer)`
 
 export const Button = styled(TouchableOpacity)`
   height: 66px;
-  background-color: #000;
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 10px;
   width: ${Dimensions.get('window').width - 50}px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+export const ButtonText = styled(Text)`
+  color: #000;
+  font-weight: bold;
+  font-size: 24px;
+  text-transform: uppercase;
+`;
+
+export const HeaderButtonText = styled(ButtonText)`
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+`;
+
+export const ListText = styled(Text)`
+  color: #000;
+`;
+
+export const HeaderButton = styled(Button)`
+  background-color: #000;
+  width: 100%;
+  padding: 0px 10px;
+  height: 40px;
+`;
 
 export const InvisibleButton = styled(Button)`
+  border: none;
   background-color: transparent;
   width: 100%;
   height: auto;
@@ -84,6 +148,7 @@ export const InvisibleButton = styled(Button)`
 `;
 
 export const ListItem = styled(View)`
+  border: 2px solid #000;
   border-radius: 10px;
   width: auto;
   height: auto;
@@ -96,16 +161,10 @@ export const ListItem = styled(View)`
   align-items: center;
 `;
 
-export const ButtonText = styled(Text)`
-  color: #fff;
-  font-weight: 800;
-  font-size: 20px;
-`;
-
 export const PageHeader = styled(View)`
   flex-flow: row;
-  justify-content: center;
-  margin: 5px 10px;
+  justify-content: space-between;
+  margin: 15px 10px 10px;
 `;
 
 export const RightFloatLink = styled(TouchableOpacity)``;

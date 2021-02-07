@@ -55,7 +55,7 @@ const Routes = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
+        activeTintColor: '#000',
         inactiveTintColor: 'gray',
       }}
     >
@@ -70,7 +70,7 @@ const Routes = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="ForgotPass" component={ForgotPass} />
+        <Stack.Screen name="Esqueci Minha Senha" component={ForgotPass} />
         <Stack.Screen name="Dashboard" component={TabStack} />
         <Stack.Screen name="Alterar Agente" component={AgentForm} />
         <Stack.Screen name="Alterar Avaliação" component={EvaluationForm} />

@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native';
 import { UseApi } from '../../hooks';
-import {
-  AppContainer,
-  DetailsContainer,
-  DetailsText,
-  InvisibleButton,
-} from '../../styles';
+import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
+import { Description } from '../../components';
 
 const StreetDetails = ({ route, navigation }) => {
   const { get } = UseApi();
@@ -28,9 +24,9 @@ const StreetDetails = ({ route, navigation }) => {
     <AppContainer>
       <DetailsContainer>
         <View>
-          <DetailsText>Nome: {street.nome}</DetailsText>
-          <DetailsText>Bairro: {street.bairro.nome}</DetailsText>
-          <DetailsText>Município: {street.bairro.municipio.nome}</DetailsText>
+          <Description name="Nome:" value={street.nome} />
+          <Description name="Bairro:" value={street.bairro.nome} />
+          <Description name="Município:" value={street.bairro.municipio.nome} />
         </View>
         <InvisibleButton
           onPress={() =>

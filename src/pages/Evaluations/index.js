@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
+  HeaderButton,
+  HeaderButtonText,
   InvisibleButton,
   ListItem,
-  ListTitle,
+  ListText,
   PageHeader,
 } from '../../styles';
 
@@ -57,11 +59,11 @@ const Evaluations = ({ navigation }) => {
         }
       >
         <View>
-          <Text>
+          <ListText>
             {rua.nome} Nº
             {numero}
-          </Text>
-          <Text>{focos} Focos</Text>
+          </ListText>
+          <ListText>{focos} Focos</ListText>
         </View>
       </InvisibleButton>
       <InvisibleButton onPress={() => onDeletePressed(rua.nome, numero, id)}>
@@ -74,11 +76,9 @@ const Evaluations = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader>
-          <InvisibleButton
-            onPress={() => navigation.navigate('Nova Avaliação')}
-          >
-            <ListTitle>Nova Avaliação</ListTitle>
-          </InvisibleButton>
+          <HeaderButton onPress={() => navigation.navigate('Nova Avaliação')}>
+            <HeaderButtonText>Nova Avaliação</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList

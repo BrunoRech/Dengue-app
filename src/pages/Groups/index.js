@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
-  ListTitle,
   InvisibleButton,
   ListItem,
   PageHeader,
+  ListText,
+  HeaderButton,
+  HeaderButtonText,
 } from '../../styles';
 
 const Groups = ({ navigation }) => {
@@ -52,7 +54,7 @@ const Groups = ({ navigation }) => {
       <InvisibleButton
         onPress={() => navigation.navigate('Detalhes Grupo', { groupId: id })}
       >
-        <Text>{nome}</Text>
+        <ListText>{nome}</ListText>
       </InvisibleButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
         <Icon name="trash" size={24} color="#000" />
@@ -64,9 +66,9 @@ const Groups = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <InvisibleButton onPress={() => navigation.navigate('Novo Grupo')}>
-            <ListTitle>Novo Grupo</ListTitle>
-          </InvisibleButton>
+          <HeaderButton onPress={() => navigation.navigate('Novo Grupo')}>
+            <HeaderButtonText>Novo Grupo</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList

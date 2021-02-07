@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
-  ListTitle,
   InvisibleButton,
   ListItem,
   PageHeader,
+  ListText,
+  HeaderButtonText,
+  HeaderButton,
 } from '../../styles';
 
 const Cities = ({ navigation }) => {
@@ -54,7 +56,7 @@ const Cities = ({ navigation }) => {
           navigation.navigate('Detalhes Município', { cityId: id })
         }
       >
-        <Text>{nome}</Text>
+        <ListText>{nome}</ListText>
       </InvisibleButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
         <Icon name="trash" size={24} color="#000" />
@@ -66,11 +68,9 @@ const Cities = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <InvisibleButton
-            onPress={() => navigation.navigate('Novo Município')}
-          >
-            <ListTitle>Novo Município</ListTitle>
-          </InvisibleButton>
+          <HeaderButton onPress={() => navigation.navigate('Novo Município')}>
+            <HeaderButtonText>Novo Município</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList

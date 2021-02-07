@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
-  ListTitle,
   InvisibleButton,
   ListItem,
   PageHeader,
+  ListText,
+  HeaderButtonText,
+  HeaderButton,
 } from '../../styles';
 
 const Districts = ({ navigation }) => {
@@ -55,8 +57,8 @@ const Districts = ({ navigation }) => {
         }
       >
         <View>
-          <Text>{nome}</Text>
-          <Text>{municipio.nome}</Text>
+          <ListText>{nome}</ListText>
+          <ListText>{municipio.nome}</ListText>
         </View>
       </InvisibleButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
@@ -69,12 +71,12 @@ const Districts = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <InvisibleButton onPress={() => navigation.navigate('Novo Bairro')}>
-            <ListTitle>Novo Bairro</ListTitle>
-          </InvisibleButton>
-          <InvisibleButton onPress={() => navigation.navigate('Municípios')}>
-            <ListTitle>Municípios</ListTitle>
-          </InvisibleButton>
+          <HeaderButton onPress={() => navigation.navigate('Novo Bairro')}>
+            <HeaderButtonText>Novo Bairro</HeaderButtonText>
+          </HeaderButton>
+          <HeaderButton onPress={() => navigation.navigate('Municípios')}>
+            <HeaderButtonText>Municípios</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList

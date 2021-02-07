@@ -3,12 +3,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import { View } from 'react-native';
 import { UseApi } from '../../hooks';
-import {
-  AppContainer,
-  DetailsContainer,
-  DetailsText,
-  InvisibleButton,
-} from '../../styles';
+import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
+import { Description } from '../../components';
 
 const AgentDetails = ({ route, navigation }) => {
   const { get } = UseApi();
@@ -29,16 +25,18 @@ const AgentDetails = ({ route, navigation }) => {
     <AppContainer>
       <DetailsContainer>
         <View>
-          <DetailsText>Nome: {agent.nome}</DetailsText>
-          <DetailsText>E-mail: {agent.email}</DetailsText>
-          <DetailsText>Telefone: {agent.telefone}</DetailsText>
-          <DetailsText>Agente: {agent.grupo.nome}</DetailsText>
-          <DetailsText>
-            Data Nascimento: {moment(agent.dataNascimento).format('DD/MM/YYYY')}
-          </DetailsText>
-          <DetailsText>
-            Data Ingresso: {moment(agent.dataIngresso).format('DD/MM/YYYY')}
-          </DetailsText>
+          <Description name="Nome:" value={agent.nome} />
+          <Description name="E-mail:" value={agent.email} />
+          <Description name="Telefone:" value={agent.telefone} />
+          <Description name="Agente:" value={agent.grupo.nome} />
+          <Description
+            name="Data de Nascimento:"
+            value={moment(agent.dataNascimento).format('DD/MM/YYYY')}
+          />
+          <Description
+            name="Data de Ingresso:"
+            value={moment(agent.dataIngresso).format('DD/MM/YYYY')}
+          />
         </View>
         <InvisibleButton
           onPress={() =>

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Description } from '../../components';
 import { UseApi } from '../../hooks';
-import {
-  AppContainer,
-  DetailsContainer,
-  DetailsText,
-  InvisibleButton,
-} from '../../styles';
+import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
 
 const EvaluationDetails = ({ route, navigation }) => {
   const { get } = UseApi();
@@ -30,14 +26,15 @@ const EvaluationDetails = ({ route, navigation }) => {
     <AppContainer>
       <DetailsContainer>
         <View>
-          <DetailsText>
-            Município: {evaluation.rua.bairro.municipio.nome}
-          </DetailsText>
-          <DetailsText>Bairro: {evaluation.rua.bairro.nome}</DetailsText>
-          <DetailsText>Rua: {evaluation.rua.nome}</DetailsText>
-          <DetailsText>Número: {evaluation.numero}</DetailsText>
-          <DetailsText>Morador: {evaluation.morador}</DetailsText>
-          <DetailsText>N° Focos: {evaluation.focos} Focos</DetailsText>
+          <Description
+            name="Município:"
+            value={evaluation.rua.bairro.municipio.nome}
+          />
+          <Description name="Bairro:" value={evaluation.rua.bairro.nome} />
+          <Description name="Rua:" value={evaluation.rua.nome} />
+          <Description name="Número:" value={evaluation.numero} />
+          <Description name="Morador:" value={evaluation.morador} />
+          <Description name="Nº Focos:" value={evaluation.focos} />
         </View>
         <InvisibleButton
           onPress={() =>

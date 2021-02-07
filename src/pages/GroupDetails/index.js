@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native';
 import { UseApi } from '../../hooks';
-import {
-  AppContainer,
-  DetailsContainer,
-  DetailsText,
-  InvisibleButton,
-} from '../../styles';
+import { Description } from '../../components';
+import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
 
 const GroupDetails = ({ route, navigation }) => {
   const { get } = UseApi();
@@ -28,7 +24,7 @@ const GroupDetails = ({ route, navigation }) => {
     <AppContainer>
       <DetailsContainer>
         <View>
-          <DetailsText>Nome: {group.nome}</DetailsText>
+          <Description name="Nome:" value={group.nome} />
         </View>
         <InvisibleButton
           onPress={() =>

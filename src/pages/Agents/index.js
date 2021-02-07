@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
-  ListTitle,
   InvisibleButton,
   ListItem,
   PageHeader,
+  HeaderButton,
+  ListText,
+  HeaderButtonText,
 } from '../../styles';
 
 const Agents = ({ navigation }) => {
@@ -53,8 +55,8 @@ const Agents = ({ navigation }) => {
         onPress={() => navigation.navigate('Detalhes Agente', { agentId: id })}
       >
         <View>
-          <Text>{nome}</Text>
-          <Text>{cpf}</Text>
+          <ListText>{nome}</ListText>
+          <ListText>{cpf}</ListText>
         </View>
       </InvisibleButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
@@ -67,12 +69,12 @@ const Agents = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader>
-          <InvisibleButton onPress={() => navigation.navigate('Novo Agente')}>
-            <ListTitle>Novo Agente</ListTitle>
-          </InvisibleButton>
-          <InvisibleButton onPress={() => navigation.navigate('Grupos')}>
-            <ListTitle>Grupos</ListTitle>
-          </InvisibleButton>
+          <HeaderButton onPress={() => navigation.navigate('Novo Agente')}>
+            <HeaderButtonText>Novo Agente</HeaderButtonText>
+          </HeaderButton>
+          <HeaderButton onPress={() => navigation.navigate('Grupos')}>
+            <HeaderButtonText>Grupos</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList

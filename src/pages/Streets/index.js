@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
-  ListTitle,
   InvisibleButton,
   ListItem,
   PageHeader,
+  ListText,
+  HeaderButton,
+  HeaderButtonText,
 } from '../../styles';
 
 const Streets = ({ navigation }) => {
@@ -52,7 +54,7 @@ const Streets = ({ navigation }) => {
       <InvisibleButton
         onPress={() => navigation.navigate('Detalhes Rua', { streetId: id })}
       >
-        <Text>{nome}</Text>
+        <ListText>{nome}</ListText>
       </InvisibleButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
         <Icon name="trash" size={24} color="#000" />
@@ -64,12 +66,12 @@ const Streets = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <InvisibleButton onPress={() => navigation.navigate('Nova Rua')}>
-            <ListTitle>Nova Rua</ListTitle>
-          </InvisibleButton>
-          <InvisibleButton onPress={() => navigation.navigate('Bairros')}>
-            <ListTitle>Bairros</ListTitle>
-          </InvisibleButton>
+          <HeaderButton onPress={() => navigation.navigate('Nova Rua')}>
+            <HeaderButtonText>Nova Rua</HeaderButtonText>
+          </HeaderButton>
+          <HeaderButton onPress={() => navigation.navigate('Bairros')}>
+            <HeaderButtonText>Bairros</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList
