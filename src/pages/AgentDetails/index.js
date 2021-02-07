@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Select from 'react-native-picker-select';
 import moment from 'moment';
 import { View } from 'react-native';
+import { BarChart, Description } from '../../components';
 import { UseApi } from '../../hooks';
-import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
-import { Description } from '../../components';
+import {
+  AppContainer,
+  BlackText,
+  ChartContainer,
+  ChartSelectContainer,
+  DetailsContainer,
+  FlexContainerMini,
+  InvisibleButton,
+} from '../../styles';
 
 const AgentDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { agentId } = route.params;
   const [agent, setAgent] = useState({ grupo: {} });
+  const [option, setOption] = useState(null);
 
   useEffect(() => {
     const fetchAgent = async () => {
@@ -26,6 +36,7 @@ const AgentDetails = ({ route, navigation }) => {
       <DetailsContainer>
         <View>
           <Description name="Nome:" value={agent.nome} />
+          <Description name="CPF:" value={agent.cpf} />
           <Description name="E-mail:" value={agent.email} />
           <Description name="Telefone:" value={agent.telefone} />
           <Description name="Agente:" value={agent.grupo.nome} />
@@ -46,6 +57,27 @@ const AgentDetails = ({ route, navigation }) => {
           <Icon name="pencil" size={24} color="#000" />
         </InvisibleButton>
       </DetailsContainer>
+
+      <ChartContainer>
+        <FlexContainerMini>
+          <BlackText>Número de Visitas</BlackText>
+          <ChartSelectContainer>
+            <Select
+              value={option}
+              onValueChange={value => setOption(value)}
+              items={[
+                { label: 'nome', value: 1, key: 1 },
+                { label: 'nome2', value: 2, key: 2 },
+              ]}
+              placeholder={{
+                value: option,
+                label: 'Período',
+              }}
+            />
+          </ChartSelectContainer>
+        </FlexContainerMini>
+        <BarChart />
+      </ChartContainer>
     </AppContainer>
   );
 };

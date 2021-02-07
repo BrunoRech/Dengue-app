@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import Select from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Description } from '../../components';
+import { BarChart, Description } from '../../components';
 import { UseApi } from '../../hooks';
-import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
+import {
+  AppContainer,
+  BlackText,
+  ChartContainer,
+  ChartSelectContainer,
+  DetailsContainer,
+  FlexContainerMini,
+  InvisibleButton,
+} from '../../styles';
 
 const EvaluationDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { evaluationId } = route.params;
+  const [option, setOption] = useState(null);
   const [evaluation, setEvaluation] = useState({
     rua: { bairro: { municipio: {} } },
   });
@@ -46,6 +56,27 @@ const EvaluationDetails = ({ route, navigation }) => {
           <Icon name="pencil" size={24} color="#000" />
         </InvisibleButton>
       </DetailsContainer>
+
+      <ChartContainer>
+        <FlexContainerMini>
+          <BlackText>Histórico de Focos</BlackText>
+          <ChartSelectContainer>
+            <Select
+              value={option}
+              onValueChange={value => setOption(value)}
+              items={[
+                { label: 'nome', value: 1, key: 1 },
+                { label: 'nome2', value: 2, key: 2 },
+              ]}
+              placeholder={{
+                value: option,
+                label: 'Período',
+              }}
+            />
+          </ChartSelectContainer>
+        </FlexContainerMini>
+        <BarChart />
+      </ChartContainer>
     </AppContainer>
   );
 };

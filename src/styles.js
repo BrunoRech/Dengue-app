@@ -78,6 +78,14 @@ export const SelectContainer = styled(View)`
   margin-bottom: 20px;
 `;
 
+export const ChartContainer = styled(View)`
+  padding: 10px;
+`;
+
+export const ChartSelectContainer = styled(SelectContainer)`
+  width: 210px;
+`;
+
 export const CheckBoxContainer = styled(View)`
   flex-direction: row;
   align-items: center;

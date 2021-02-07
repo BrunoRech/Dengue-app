@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native';
+import Select from 'react-native-picker-select';
 import { UseApi } from '../../hooks';
-import { AppContainer, DetailsContainer, InvisibleButton } from '../../styles';
-import { Description } from '../../components';
+import { BarChart, Description } from '../../components';
+import {
+  AppContainer,
+  BlackText,
+  ChartContainer,
+  ChartSelectContainer,
+  DetailsContainer,
+  FlexContainerMini,
+  InvisibleButton,
+} from '../../styles';
 
 const CityDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { cityId } = route.params;
   const [city, setCity] = useState({});
+  const [option, setOption] = useState(null);
 
   useEffect(() => {
     const fetchCity = async () => {
@@ -34,6 +44,27 @@ const CityDetails = ({ route, navigation }) => {
           <Icon name="pencil" size={24} color="#000" />
         </InvisibleButton>
       </DetailsContainer>
+
+      <ChartContainer>
+        <FlexContainerMini>
+          <BlackText>Número de Focos</BlackText>
+          <ChartSelectContainer>
+            <Select
+              value={option}
+              onValueChange={value => setOption(value)}
+              items={[
+                { label: 'nome', value: 1, key: 1 },
+                { label: 'nome2', value: 2, key: 2 },
+              ]}
+              placeholder={{
+                value: option,
+                label: 'Período',
+              }}
+            />
+          </ChartSelectContainer>
+        </FlexContainerMini>
+        <BarChart />
+      </ChartContainer>
     </AppContainer>
   );
 };
