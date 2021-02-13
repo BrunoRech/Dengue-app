@@ -30,8 +30,8 @@ const useApi = () => {
     ),
 
     get: useCallback(
-      (url, message) => {
-        return process(() => api.get(url), message);
+      (url, message, config) => {
+        return process(() => api.get(url, config), message);
       },
       [process],
     ),

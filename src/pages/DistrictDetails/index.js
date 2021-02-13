@@ -4,6 +4,7 @@ import Select from 'react-native-picker-select';
 import { View } from 'react-native';
 import { UseApi } from '../../hooks';
 import { BarChart, Description } from '../../components';
+import { periods, SEMANAL } from '../../utils/constants';
 import {
   AppContainer,
   BlackText,
@@ -18,7 +19,8 @@ const DistrictDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { districtId } = route.params;
   const [district, setDistrict] = useState({ municipio: {} });
-  const [option, setOption] = useState(null);
+  const [period, setPeriod] = useState(SEMANAL);
+  const [graphData, setGraphData] = useState([]);
 
   useEffect(() => {
     const fetchDistrict = async () => {
@@ -29,6 +31,16 @@ const DistrictDetails = ({ route, navigation }) => {
     };
     fetchDistrict();
   }, [get, districtId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await get(`/bairros/${districtId}/focos`, null, {
+        headers: { periodo: period },
+      });
+      setGraphData(data);
+    };
+    fetchData();
+  }, [get, period, districtId]);
 
   return (
     <AppContainer>
@@ -51,20 +63,17 @@ const DistrictDetails = ({ route, navigation }) => {
           <BlackText>Número de Focos</BlackText>
           <ChartSelectContainer>
             <Select
-              value={option}
-              onValueChange={value => setOption(value)}
-              items={[
-                { label: 'nome', value: 1, key: 1 },
-                { label: 'nome2', value: 2, key: 2 },
-              ]}
+              value={period}
+              onValueChange={value => setPeriod(value)}
+              items={periods}
               placeholder={{
-                value: option,
+                value: period,
                 label: 'Período',
               }}
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart />
+        <BarChart data={graphData} />
       </ChartContainer>
     </AppContainer>
   );

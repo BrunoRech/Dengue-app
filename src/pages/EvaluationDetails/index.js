@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import Select from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BarChart, Description } from '../../components';
+import { periods, SEMANAL } from '../../utils/constants';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -17,7 +18,8 @@ import {
 const EvaluationDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { evaluationId } = route.params;
-  const [option, setOption] = useState(null);
+  const [period, setPeriod] = useState(SEMANAL);
+  const [graphData, setGraphData] = useState([]);
   const [evaluation, setEvaluation] = useState({
     rua: { bairro: { municipio: {} } },
   });
@@ -31,6 +33,18 @@ const EvaluationDetails = ({ route, navigation }) => {
     };
     fetchEvaluation();
   }, [get, evaluationId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await get(`/ruas/${evaluation.rua.id}/focos`, null, {
+        headers: { periodo: period },
+      });
+      setGraphData(data);
+    };
+    if (evaluation.rua.id) {
+      fetchData();
+    }
+  }, [get, period, evaluation]);
 
   return (
     <AppContainer>
@@ -62,20 +76,17 @@ const EvaluationDetails = ({ route, navigation }) => {
           <BlackText>Histórico de Focos</BlackText>
           <ChartSelectContainer>
             <Select
-              value={option}
-              onValueChange={value => setOption(value)}
-              items={[
-                { label: 'nome', value: 1, key: 1 },
-                { label: 'nome2', value: 2, key: 2 },
-              ]}
+              value={period}
+              onValueChange={value => setPeriod(value)}
+              items={periods}
               placeholder={{
-                value: option,
+                value: period,
                 label: 'Período',
               }}
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart />
+        <BarChart data={graphData} />
       </ChartContainer>
     </AppContainer>
   );

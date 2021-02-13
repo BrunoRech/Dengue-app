@@ -1,4 +1,5 @@
 import { transform, isEqual, isObject, isArray } from 'lodash';
+import moment from 'moment';
 
 export const getObjectDiff = (newObj, oldObj) => {
   let arrayIndexCounter = 0;
@@ -11,4 +12,15 @@ export const getObjectDiff = (newObj, oldObj) => {
           : value;
     }
   });
+};
+
+export const buildDate = (day, month, year) => {
+  let date = moment()
+    .month(month - 1)
+    .year(year);
+  if (day) {
+    date = date.date(day);
+    return date.format('DD/MM/YYYY');
+  }
+  return date.format('MM/YYYY');
 };

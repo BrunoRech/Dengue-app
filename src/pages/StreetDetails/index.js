@@ -13,12 +13,14 @@ import {
   FlexContainerMini,
   InvisibleButton,
 } from '../../styles';
+import { periods, SEMANAL } from '../../utils/constants';
 
 const StreetDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { streetId } = route.params;
   const [street, setStreet] = useState({ bairro: { municipio: {} } });
-  const [option, setOption] = useState(null);
+  const [period, setPeriod] = useState(SEMANAL);
+  const [graphData, setGraphData] = useState([]);
 
   useEffect(() => {
     const fetchStreet = async () => {
@@ -29,6 +31,16 @@ const StreetDetails = ({ route, navigation }) => {
     };
     fetchStreet();
   }, [get, streetId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await get(`/ruas/${streetId}/focos`, null, {
+        headers: { periodo: period },
+      });
+      setGraphData(data);
+    };
+    fetchData();
+  }, [get, period, streetId]);
 
   return (
     <AppContainer>
@@ -52,20 +64,17 @@ const StreetDetails = ({ route, navigation }) => {
           <BlackText>Número de Focos</BlackText>
           <ChartSelectContainer>
             <Select
-              value={option}
-              onValueChange={value => setOption(value)}
-              items={[
-                { label: 'nome', value: 1, key: 1 },
-                { label: 'nome2', value: 2, key: 2 },
-              ]}
+              value={period}
+              onValueChange={value => setPeriod(value)}
+              items={periods}
               placeholder={{
-                value: option,
+                value: period,
                 label: 'Período',
               }}
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart />
+        <BarChart data={graphData} />
       </ChartContainer>
     </AppContainer>
   );
