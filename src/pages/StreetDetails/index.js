@@ -7,7 +7,6 @@ import { BarChart, Description } from '../../components';
 import {
   AppContainer,
   BlackText,
-  ChartContainer,
   ChartSelectContainer,
   DetailsContainer,
   FlexContainerMini,
@@ -59,23 +58,21 @@ const StreetDetails = ({ route, navigation }) => {
         </InvisibleButton>
       </DetailsContainer>
 
-      <ChartContainer>
-        <FlexContainerMini>
-          <BlackText>Número de Focos</BlackText>
-          <ChartSelectContainer>
-            <Select
-              value={period}
-              onValueChange={value => setPeriod(value)}
-              items={periods}
-              placeholder={{
-                value: period,
-                label: 'Período',
-              }}
-            />
-          </ChartSelectContainer>
-        </FlexContainerMini>
-        <BarChart data={graphData} />
-      </ChartContainer>
+      <FlexContainerMini>
+        <BlackText>Número de Focos</BlackText>
+        <ChartSelectContainer>
+          <Select
+            value={period}
+            onValueChange={value => setPeriod(value)}
+            items={periods}
+            placeholder={{
+              value: period,
+              label: 'Período',
+            }}
+          />
+        </ChartSelectContainer>
+      </FlexContainerMini>
+      <BarChart data={graphData} />
     </AppContainer>
   );
 };

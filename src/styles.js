@@ -38,6 +38,14 @@ export const InputTexto = styled(TextInput)`
   font-size: 18px;
 `;
 
+export const GraphContainer = styled(View)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+`;
+
 export const DatePickerContainer = styled(View)`
   margin-bottom: 20px;
   display: flex;
@@ -78,10 +86,6 @@ export const SelectContainer = styled(View)`
   margin-bottom: 20px;
 `;
 
-export const ChartContainer = styled(View)`
-  padding: 10px;
-`;
-
 export const ChartSelectContainer = styled(SelectContainer)`
   width: 210px;
 `;
@@ -105,6 +109,7 @@ export const FlexContainerMini = styled(FlexContainer)`
   height: auto;
   flex-flow: row;
   justify-content: space-between;
+  padding: 10px;
 `;
 
 export const FormContainer = styled(FlexContainer)`

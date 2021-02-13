@@ -8,7 +8,6 @@ import { periods, SEMANAL } from '../../utils/constants';
 import {
   AppContainer,
   BlackText,
-  ChartContainer,
   ChartSelectContainer,
   DetailsContainer,
   FlexContainerMini,
@@ -57,23 +56,21 @@ const GroupDetails = ({ route, navigation }) => {
         </InvisibleButton>
       </DetailsContainer>
 
-      <ChartContainer>
-        <FlexContainerMini>
-          <BlackText>Histórico de Visitas</BlackText>
-          <ChartSelectContainer>
-            <Select
-              value={period}
-              onValueChange={value => setPeriod(value)}
-              items={periods}
-              placeholder={{
-                value: period,
-                label: 'Período',
-              }}
-            />
-          </ChartSelectContainer>
-        </FlexContainerMini>
-        <BarChart data={graphData} />
-      </ChartContainer>
+      <FlexContainerMini>
+        <BlackText>Histórico de Visitas</BlackText>
+        <ChartSelectContainer>
+          <Select
+            value={period}
+            onValueChange={value => setPeriod(value)}
+            items={periods}
+            placeholder={{
+              value: period,
+              label: 'Período',
+            }}
+          />
+        </ChartSelectContainer>
+      </FlexContainerMini>
+      <BarChart data={graphData} />
     </AppContainer>
   );
 };

@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { BarChart } from '../../components';
 import useApi from '../../hooks/useApi';
 import { AppContainer } from '../../styles';
-import { SEMANAL } from '../../utils/constants';
+import { ANUAL } from '../../utils/constants';
 
 const Dashboard = () => {
   const { get } = useApi();
-  const [period, setPeriod] = useState(SEMANAL);
+  const [period, setPeriod] = useState(ANUAL);
   const [graphData, setGraphData] = useState([]);
 
-  /*   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
-      const { data } = await get(`/bairros/${districtId}/focos`, null, {
+      const { data } = await get('/bairros/1/focos', null, {
         headers: { periodo: period },
       });
       setGraphData(data);
     };
     fetchData();
-  }, [get, period, districtId]); */
+  }, [get, period]);
 
   return (
     <AppContainer>
-      <ScrollView>
-        <View />
-        <View />
-      </ScrollView>
+      <BarChart data={graphData} />
     </AppContainer>
   );
 };
