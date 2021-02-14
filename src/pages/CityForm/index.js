@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -11,6 +12,7 @@ import {
 const CityForm = ({ route }) => {
   const { cityId } = route.params || {};
   const { post, put, get } = UseApi();
+  const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
   const [oldCity, setOldCity] = useState({});
 
@@ -26,18 +28,33 @@ const CityForm = ({ route }) => {
   }, [get, cityId]);
 
   const handleSubmit = async () => {
+    setRefreshing(true);
     if (cityId) {
-      await put(`/municipios/${cityId}`, formData, oldCity);
+      const { data } = await put(
+        `/municipios/${cityId}`,
+        formData,
+        oldCity,
+        `Município: ${oldCity.nome} alterado com sucesso`,
+      );
+      if (data) {
+        setFormData(data);
+      }
     } else {
-      const { data } = await post('/municipios', formData);
+      const { data } = await post(
+        '/municipios',
+        formData,
+        `Município: ${formData.nome} criado com sucesso`,
+      );
       if (data) {
         setFormData({});
       }
     }
+    setRefreshing(false);
   };
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <FormContainer>
         <InputTexto
           placeholder="Nome"

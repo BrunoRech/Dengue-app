@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -11,6 +12,7 @@ import {
 const GroupForm = ({ route }) => {
   const { groupId } = route.params || {};
   const { post, get, put } = UseApi();
+  const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
   const [oldGroup, setOldGroup] = useState({});
 
@@ -26,18 +28,33 @@ const GroupForm = ({ route }) => {
   }, [get, groupId]);
 
   const handleSubmit = async () => {
+    setRefreshing(true);
     if (groupId) {
-      await put(`/grupos/${groupId}`, formData, oldGroup);
+      const { data } = await put(
+        `/grupos/${groupId}`,
+        formData,
+        oldGroup,
+        `Grupo: ${oldGroup.nome} alterado com sucesso`,
+      );
+      if (data) {
+        setOldGroup(data);
+      }
     } else {
-      const { data } = await post('/grupos', formData);
+      const { data } = await post(
+        '/grupos',
+        formData,
+        `Grupo: ${formData.nome} criado com sucesso`,
+      );
       if (data) {
         setFormData({});
       }
     }
+    setRefreshing(false);
   };
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <FormContainer>
         <InputTexto
           placeholder="Nome"

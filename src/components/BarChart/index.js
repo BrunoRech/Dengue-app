@@ -4,11 +4,16 @@ import { VictoryBar, VictoryChart, VictoryTheme } from 'victory-native';
 import { GraphContainer } from '../../styles';
 import { buildDate } from '../../utils';
 
-const BarChart = ({ data = [] }) => {
+const BarChart = ({ data = [], noPadding }) => {
   return (
     <GraphContainer>
       <VictoryChart
-        padding={{ left: 80, right: 10, bottom: 150, top: 50 }}
+        padding={{
+          left: 80,
+          right: 10,
+          bottom: noPadding ? 50 : 150,
+          top: 50,
+        }}
         minDomain={{ y: 0 }}
         height={500}
         horizontal={data.length > 5}

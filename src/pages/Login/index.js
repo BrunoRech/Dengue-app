@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, CheckBox, TouchableOpacity } from 'react-native';
 import mosquitoSvg from '../../assets/images/mosquito.png';
@@ -13,12 +14,12 @@ import {
   FlexContainerMini,
   InputTexto,
   Logo,
-  RightFloatLink,
 } from '../../styles';
 
 const Login = ({ navigation }) => {
   const { post } = UseApi();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({
     email: 'email@email.com',
     senha: '123',
@@ -26,6 +27,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     let data;
+    setRefreshing(true);
     if (isAdmin) {
       const response = await post('/sessoes/coordenadores', formData);
       data = response.data;
@@ -36,14 +38,17 @@ const Login = ({ navigation }) => {
     if (data && data.token) {
       await AsyncStorage.setItem('token', data.token);
       await AsyncStorage.setItem('isAdmin', `${isAdmin}`);
+      setRefreshing(false);
       navigation.navigate('Dashboard');
     }
+    setRefreshing(false);
   };
 
   return (
     <AppContainer>
       <FlexContainer>
         <Logo source={mosquitoSvg} />
+        <Spinner visible={refreshing} textContent="Aguarde..." />
         <View>
           <InputTexto
             placeholder="E-mail"
@@ -67,11 +72,6 @@ const Login = ({ navigation }) => {
                 <BlackText>Coordenador</BlackText>
               </TouchableOpacity>
             </FlexContainerMini>
-            <RightFloatLink
-              onPress={() => navigation.navigate('Esqueci Minha Senha')}
-            >
-              <BlackText>Esqueceu sua Senha?</BlackText>
-            </RightFloatLink>
           </CheckBoxContainer>
         </View>
         <View>

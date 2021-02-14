@@ -179,5 +179,3 @@ export const PageHeader = styled(View)`
   justify-content: space-between;
   margin: 15px 10px 10px;
 `;
-
-export const RightFloatLink = styled(TouchableOpacity)``;

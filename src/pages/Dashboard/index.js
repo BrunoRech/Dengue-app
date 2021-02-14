@@ -91,7 +91,7 @@ const Dashboard = () => {
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart data={streetData} />
+        <BarChart data={streetData} noPadding />
 
         <FlexContainerMini>
           <BlackText>Focos por Bairro</BlackText>
@@ -107,7 +107,7 @@ const Dashboard = () => {
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart data={districtData} />
+        <BarChart data={districtData} noPadding />
 
         <FlexContainerMini>
           <BlackText>Focos por Município</BlackText>
@@ -123,7 +123,7 @@ const Dashboard = () => {
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart data={cityData} />
+        <BarChart data={cityData} noPadding />
 
         <FlexContainerMini>
           <BlackText>Visitas por Agente</BlackText>
@@ -139,7 +139,7 @@ const Dashboard = () => {
             />
           </ChartSelectContainer>
         </FlexContainerMini>
-        <BarChart data={agentData} />
+        <BarChart data={agentData} noPadding />
 
         <FlexContainerMini>
           <BlackText>Visitas por Grupo</BlackText>

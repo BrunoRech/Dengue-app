@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import moment from 'moment';
 import { ScrollView, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarChart, Description } from '../../components';
 import { periods, SEMANAL } from '../../utils/constants';
 import { UseApi } from '../../hooks';
@@ -21,6 +22,15 @@ const AgentDetails = ({ route, navigation }) => {
   const [agent, setAgent] = useState({ grupo: {} });
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
+  const [isAdmin, setAdmin] = useState(null);
+
+  useEffect(() => {
+    const getPrivileges = async () => {
+      const response = await AsyncStorage.getItem('isAdmin');
+      setAdmin(response);
+    };
+    getPrivileges();
+  });
 
   useEffect(() => {
     const fetchAgent = async () => {
@@ -61,13 +71,15 @@ const AgentDetails = ({ route, navigation }) => {
               value={moment(agent.dataIngresso).format('DD/MM/YYYY')}
             />
           </View>
-          <InvisibleButton
-            onPress={() =>
-              navigation.navigate('Alterar Agente', { agentId: agent.id })
-            }
-          >
-            <Icon name="pencil" size={24} color="#000" />
-          </InvisibleButton>
+          {isAdmin === 'true' && (
+            <InvisibleButton
+              onPress={() =>
+                navigation.navigate('Alterar Agente', { agentId: agent.id })
+              }
+            >
+              <Icon name="pencil" size={24} color="#000" />
+            </InvisibleButton>
+          )}
         </DetailsContainer>
 
         <FlexContainerMini>

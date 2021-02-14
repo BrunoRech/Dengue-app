@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-datepicker';
 import Select from 'react-native-picker-select';
 import { Text, View } from 'react-native';
@@ -17,6 +18,7 @@ import {
 const AgentForm = ({ route }) => {
   const { agentId } = route.params || {};
   const { post, get, put } = UseApi();
+  const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
   const [oldAgent, setOldAgent] = useState({});
   const [groups, setGroups] = useState([]);
@@ -52,8 +54,9 @@ const AgentForm = ({ route }) => {
   }, [get, agentId]);
 
   const handleSubmit = async () => {
+    setRefreshing(true);
     if (agentId) {
-      await put(
+      const { data } = await put(
         `/agentes/${agentId}`,
         {
           ...formData,
@@ -65,25 +68,35 @@ const AgentForm = ({ route }) => {
           ),
         },
         oldAgent,
+        `Agente: ${oldAgent.nome} alterado(a) com sucesso`,
       );
+      if (data) {
+        setOldAgent(data);
+      }
     } else {
-      const { data } = await post('/agentes', {
-        ...formData,
-        dataNascimento: moment(formData.dataNascimento, 'DD/MM/YYYY').format(
-          'MM/DD/YYYY',
-        ),
-        dataIngresso: moment(formData.dataIngresso, 'DD/MM/YYYY').format(
-          'MM/DD/YYYY',
-        ),
-      });
+      const { data } = await post(
+        '/agentes',
+        {
+          ...formData,
+          dataNascimento: moment(formData.dataNascimento, 'DD/MM/YYYY').format(
+            'MM/DD/YYYY',
+          ),
+          dataIngresso: moment(formData.dataIngresso, 'DD/MM/YYYY').format(
+            'MM/DD/YYYY',
+          ),
+        },
+        `Agente: ${formData.nome} criado(a) com sucesso`,
+      );
       if (data) {
         setFormData({});
       }
     }
+    setRefreshing(false);
   };
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <FormContainer>
         <InputTexto
           placeholder="Nome"

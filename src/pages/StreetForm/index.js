@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Select from 'react-native-picker-select';
 import { UseApi } from '../../hooks';
 import {
@@ -13,6 +14,7 @@ import {
 const StreetForm = ({ route }) => {
   const { streetId } = route.params || {};
   const { post, get, put } = UseApi();
+  const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
   const [oldStreet, setOldStreet] = useState({});
   const [districts, setDistricts] = useState([]);
@@ -47,18 +49,33 @@ const StreetForm = ({ route }) => {
   }, [get, streetId]);
 
   const handleSubmit = async () => {
+    setRefreshing(true);
     if (streetId) {
-      await put(`/ruas/${streetId}`, formData, oldStreet);
+      const { data } = await put(
+        `/ruas/${streetId}`,
+        formData,
+        oldStreet,
+        `Rua: ${oldStreet.nome} alterada com sucesso`,
+      );
+      if (data) {
+        setOldStreet(data);
+      }
     } else {
-      const { data } = await post('/ruas', formData);
+      const { data } = await post(
+        '/ruas',
+        formData,
+        `Rua: ${formData.nome} criada com sucesso`,
+      );
       if (data) {
         setFormData({});
       }
     }
+    setRefreshing(false);
   };
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <FormContainer>
         <InputTexto
           placeholder="Nome"

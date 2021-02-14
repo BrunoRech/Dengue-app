@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Login,
-  ForgotPass,
   Dashboard,
   Agents,
   Evaluations,
@@ -70,7 +69,6 @@ const Routes = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Esqueci Minha Senha" component={ForgotPass} />
         <Stack.Screen name="Dashboard" component={TabStack} />
         <Stack.Screen name="Alterar Agente" component={AgentForm} />
         <Stack.Screen name="Alterar Avaliação" component={EvaluationForm} />

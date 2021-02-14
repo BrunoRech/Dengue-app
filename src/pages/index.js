@@ -9,13 +9,12 @@ import GroupForm from './GroupForm';
 import AgentForm from './AgentForm';
 import Districts from './Districts';
 import StreetForm from './StreetForm';
-import ForgotPass from './ForgotPass';
 import CityDetails from './CityDetails';
 import Evaluations from './Evaluations';
 import GroupDetails from './GroupDetails';
 import AgentDetails from './AgentDetails';
-import StreetDetails from './StreetDetails';
 import DistrictForm from './DistrictForm';
+import StreetDetails from './StreetDetails';
 import EvaluationForm from './EvaluationForm';
 import DistrictDetails from './DistrictDetails';
 import EvaluationDetails from './EvaluationDetails';
@@ -32,7 +31,6 @@ export {
   Districts,
   GroupForm,
   StreetForm,
-  ForgotPass,
   Evaluations,
   CityDetails,
   GroupDetails,

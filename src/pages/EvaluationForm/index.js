@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Select from 'react-native-picker-select';
 import { UseApi } from '../../hooks';
 import {
@@ -13,6 +14,7 @@ import {
 const EvaluationForm = ({ route }) => {
   const { evaluationId } = route.params || {};
   const { post, get, put } = UseApi();
+  const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
   const [oldEvaluation, setOldEvaluation] = useState({});
   const [agents, setAgents] = useState([]);
@@ -57,18 +59,33 @@ const EvaluationForm = ({ route }) => {
   }, [get, evaluationId]);
 
   const handleSubmit = async () => {
+    setRefreshing(true);
     if (evaluationId) {
-      await put(`/avaliacoes/${evaluationId}`, formData, oldEvaluation);
+      const { data } = await put(
+        `/avaliacoes/${evaluationId}`,
+        formData,
+        oldEvaluation,
+        'Avaliação alterada com sucesso',
+      );
+      if (data) {
+        setOldEvaluation(data);
+      }
     } else {
-      const { data } = await post('/avaliacoes', formData);
+      const { data } = await post(
+        '/avaliacoes',
+        formData,
+        'Avaliação criada com sucesso',
+      );
       if (data) {
         setFormData({});
       }
     }
+    setRefreshing(false);
   };
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <FormContainer>
         <SelectContainer>
           <Select
