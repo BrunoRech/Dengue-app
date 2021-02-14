@@ -9,8 +9,8 @@ import {
   InputTexto,
 } from '../../styles';
 
-const GroupForm = ({ route }) => {
-  const { groupId } = route.params || {};
+const GroupForm = ({ route, navigation }) => {
+  const { groupId, onGoBack } = route.params || {};
   const { post, get, put } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -36,8 +36,11 @@ const GroupForm = ({ route }) => {
         oldGroup,
         `Grupo: ${oldGroup.nome} alterado com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setOldGroup(data);
+        onGoBack();
+        navigation.goBack();
       }
     } else {
       const { data } = await post(
@@ -45,11 +48,13 @@ const GroupForm = ({ route }) => {
         formData,
         `Grupo: ${formData.nome} criado com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setFormData({});
+        onGoBack();
+        navigation.goBack();
       }
     }
-    setRefreshing(false);
   };
 
   return (

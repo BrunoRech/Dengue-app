@@ -11,8 +11,8 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const DistrictForm = ({ route }) => {
-  const { districtId } = route.params || {};
+const DistrictForm = ({ route, navigation }) => {
+  const { districtId, onGoBack } = route.params || {};
   const { post, get, put } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -57,8 +57,11 @@ const DistrictForm = ({ route }) => {
         oldDistrict,
         `Bairro: ${oldDistrict.nome} alterado com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setOldDistrict(data);
+        navigation.goBack();
+        onGoBack();
       }
     } else {
       const { data } = await post(
@@ -66,11 +69,13 @@ const DistrictForm = ({ route }) => {
         formData,
         `Bairro: ${formData.nome} criado com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setFormData({});
+        navigation.goBack();
+        onGoBack();
       }
     }
-    setRefreshing(false);
   };
 
   return (

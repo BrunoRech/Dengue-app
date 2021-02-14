@@ -11,8 +11,8 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const EvaluationForm = ({ route }) => {
-  const { evaluationId } = route.params || {};
+const EvaluationForm = ({ route, navigation }) => {
+  const { evaluationId, onGoBack } = route.params || {};
   const { post, get, put } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -67,8 +67,11 @@ const EvaluationForm = ({ route }) => {
         oldEvaluation,
         'Avaliação alterada com sucesso',
       );
+      setRefreshing(false);
       if (data) {
         setOldEvaluation(data);
+        onGoBack();
+        navigation.goBack();
       }
     } else {
       const { data } = await post(
@@ -76,11 +79,13 @@ const EvaluationForm = ({ route }) => {
         formData,
         'Avaliação criada com sucesso',
       );
+      setRefreshing(false);
       if (data) {
         setFormData({});
+        onGoBack();
+        navigation.goBack();
       }
     }
-    setRefreshing(false);
   };
 
   return (

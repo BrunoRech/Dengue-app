@@ -25,6 +25,7 @@ const Agents = ({ navigation }) => {
     setAgents(data);
     setRefreshing(false);
   }, [get]);
+
   useEffect(() => {
     const getPrivileges = async () => {
       const response = await AsyncStorage.getItem('isAdmin');
@@ -76,7 +77,13 @@ const Agents = ({ navigation }) => {
       <View>
         <PageHeader>
           {isAdmin === 'true' && (
-            <HeaderButton onPress={() => navigation.navigate('Novo Agente')}>
+            <HeaderButton
+              onPress={() =>
+                navigation.navigate('Novo Agente', {
+                  onGoBack: () => fetchAgents(),
+                })
+              }
+            >
               <HeaderButtonText>Novo Agente</HeaderButtonText>
             </HeaderButton>
           )}

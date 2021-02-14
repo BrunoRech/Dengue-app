@@ -11,8 +11,8 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const StreetForm = ({ route }) => {
-  const { streetId } = route.params || {};
+const StreetForm = ({ route, navigation }) => {
+  const { streetId, onGoBack } = route.params || {};
   const { post, get, put } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -57,7 +57,10 @@ const StreetForm = ({ route }) => {
         oldStreet,
         `Rua: ${oldStreet.nome} alterada com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
+        navigation.goBack();
+        onGoBack();
         setOldStreet(data);
       }
     } else {
@@ -66,11 +69,13 @@ const StreetForm = ({ route }) => {
         formData,
         `Rua: ${formData.nome} criada com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setFormData({});
+        navigation.goBack();
+        onGoBack();
       }
     }
-    setRefreshing(false);
   };
 
   return (

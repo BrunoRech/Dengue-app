@@ -66,7 +66,13 @@ const Streets = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <HeaderButton onPress={() => navigation.navigate('Nova Rua')}>
+          <HeaderButton
+            onPress={() =>
+              navigation.navigate('Nova Rua', {
+                onGoBack: () => fetchStreets(),
+              })
+            }
+          >
             <HeaderButtonText>Nova Rua</HeaderButtonText>
           </HeaderButton>
           <HeaderButton onPress={() => navigation.navigate('Bairros')}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import moment from 'moment';
@@ -32,15 +32,16 @@ const AgentDetails = ({ route, navigation }) => {
     getPrivileges();
   });
 
-  useEffect(() => {
-    const fetchAgent = async () => {
-      const { data } = await get(`/agentes/${agentId}`);
-      if (data) {
-        setAgent(data);
-      }
-    };
-    fetchAgent();
+  const fetchAgent = useCallback(async () => {
+    const { data } = await get(`/agentes/${agentId}`);
+    if (data) {
+      setAgent(data);
+    }
   }, [get, agentId]);
+
+  useEffect(() => {
+    fetchAgent();
+  }, [fetchAgent]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +75,10 @@ const AgentDetails = ({ route, navigation }) => {
           {isAdmin === 'true' && (
             <InvisibleButton
               onPress={() =>
-                navigation.navigate('Alterar Agente', { agentId: agent.id })
+                navigation.navigate('Alterar Agente', {
+                  agentId: agent.id,
+                  onGoBack: () => fetchAgent(),
+                })
               }
             >
               <Icon name="pencil" size={24} color="#000" />

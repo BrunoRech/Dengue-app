@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native';
 import Select from 'react-native-picker-select';
@@ -21,15 +21,16 @@ const CityDetails = ({ route, navigation }) => {
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
 
-  useEffect(() => {
-    const fetchCity = async () => {
-      const { data } = await get(`/municipios/${cityId}`);
-      if (data) {
-        setCity(data);
-      }
-    };
-    fetchCity();
+  const fetchCity = useCallback(async () => {
+    const { data } = await get(`/municipios/${cityId}`);
+    if (data) {
+      setCity(data);
+    }
   }, [get, cityId]);
+
+  useEffect(() => {
+    fetchCity();
+  }, [fetchCity]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +50,10 @@ const CityDetails = ({ route, navigation }) => {
         </View>
         <InvisibleButton
           onPress={() =>
-            navigation.navigate('Alterar Município', { cityId: city.id })
+            navigation.navigate('Alterar Município', {
+              cityId: city.id,
+              onGoBack: () => fetchCity(),
+            })
           }
         >
           <Icon name="pencil" size={24} color="#000" />

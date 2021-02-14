@@ -76,7 +76,13 @@ const Evaluations = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader>
-          <HeaderButton onPress={() => navigation.navigate('Nova Avaliação')}>
+          <HeaderButton
+            onPress={() =>
+              navigation.navigate('Nova Avaliação', {
+                onGoBack: () => fetchEvaluations(),
+              })
+            }
+          >
             <HeaderButtonText>Nova Avaliação</HeaderButtonText>
           </HeaderButton>
         </PageHeader>

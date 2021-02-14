@@ -15,8 +15,8 @@ import {
   SelectContainer,
 } from '../../styles';
 
-const AgentForm = ({ route }) => {
-  const { agentId } = route.params || {};
+const AgentForm = ({ route, navigation }) => {
+  const { agentId, onGoBack } = route.params || {};
   const { post, get, put } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -70,8 +70,11 @@ const AgentForm = ({ route }) => {
         oldAgent,
         `Agente: ${oldAgent.nome} alterado(a) com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setOldAgent(data);
+        onGoBack();
+        navigation.goBack();
       }
     } else {
       const { data } = await post(
@@ -87,11 +90,13 @@ const AgentForm = ({ route }) => {
         },
         `Agente: ${formData.nome} criado(a) com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setFormData({});
+        onGoBack();
+        navigation.goBack();
       }
     }
-    setRefreshing(false);
   };
 
   return (

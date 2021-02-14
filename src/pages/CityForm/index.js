@@ -9,8 +9,8 @@ import {
   InputTexto,
 } from '../../styles';
 
-const CityForm = ({ route }) => {
-  const { cityId } = route.params || {};
+const CityForm = ({ route, navigation }) => {
+  const { cityId, onGoBack } = route.params || {};
   const { post, put, get } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -36,8 +36,11 @@ const CityForm = ({ route }) => {
         oldCity,
         `Município: ${oldCity.nome} alterado com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setFormData(data);
+        onGoBack();
+        navigation.goBack();
       }
     } else {
       const { data } = await post(
@@ -45,11 +48,13 @@ const CityForm = ({ route }) => {
         formData,
         `Município: ${formData.nome} criado com sucesso`,
       );
+      setRefreshing(false);
       if (data) {
         setFormData({});
+        onGoBack();
+        navigation.goBack();
       }
     }
-    setRefreshing(false);
   };
 
   return (

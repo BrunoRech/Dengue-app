@@ -17,7 +17,7 @@ const Groups = ({ navigation }) => {
   const [groups, setGroups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchStreets = useCallback(async () => {
+  const fetchGroups = useCallback(async () => {
     setRefreshing(true);
     const { data } = await get('/grupos');
     setGroups(data);
@@ -25,8 +25,8 @@ const Groups = ({ navigation }) => {
   }, [get]);
 
   useEffect(() => {
-    fetchStreets();
-  }, [fetchStreets]);
+    fetchGroups();
+  }, [fetchGroups]);
 
   const destroyGroup = async id => {
     await destroy(`/grupos/${id}`, '', () => {
@@ -66,7 +66,13 @@ const Groups = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <HeaderButton onPress={() => navigation.navigate('Novo Grupo')}>
+          <HeaderButton
+            onPress={() =>
+              navigation.navigate('Novo Grupo', {
+                onGoBack: () => fetchGroups(),
+              })
+            }
+          >
             <HeaderButtonText>Novo Grupo</HeaderButtonText>
           </HeaderButton>
         </PageHeader>
@@ -76,7 +82,7 @@ const Groups = ({ navigation }) => {
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => `${item.id}`}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={fetchStreets} />
+          <RefreshControl refreshing={refreshing} onRefresh={fetchGroups} />
         }
       />
     </AppContainer>

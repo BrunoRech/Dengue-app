@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import { View } from 'react-native';
@@ -21,15 +21,16 @@ const GroupDetails = ({ route, navigation }) => {
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
 
-  useEffect(() => {
-    const fetchAgent = async () => {
-      const { data } = await get(`/grupos/${groupId}`);
-      if (data) {
-        setGroup(data);
-      }
-    };
-    fetchAgent();
+  const fetchGroup = useCallback(async () => {
+    const { data } = await get(`/grupos/${groupId}`);
+    if (data) {
+      setGroup(data);
+    }
   }, [get, groupId]);
+
+  useEffect(() => {
+    fetchGroup();
+  }, [fetchGroup, groupId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +50,10 @@ const GroupDetails = ({ route, navigation }) => {
         </View>
         <InvisibleButton
           onPress={() =>
-            navigation.navigate('Alterar Grupo', { groupId: group.id })
+            navigation.navigate('Alterar Grupo', {
+              onGoBack: () => fetchGroup(),
+              groupId: group.id,
+            })
           }
         >
           <Icon name="pencil" size={24} color="#000" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import { View } from 'react-native';
@@ -21,15 +21,16 @@ const StreetDetails = ({ route, navigation }) => {
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
 
-  useEffect(() => {
-    const fetchStreet = async () => {
-      const { data } = await get(`/ruas/${streetId}`);
-      if (data) {
-        setStreet(data);
-      }
-    };
-    fetchStreet();
+  const fetchStreet = useCallback(async () => {
+    const { data } = await get(`/ruas/${streetId}`);
+    if (data) {
+      setStreet(data);
+    }
   }, [get, streetId]);
+
+  useEffect(() => {
+    fetchStreet();
+  }, [fetchStreet]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +52,10 @@ const StreetDetails = ({ route, navigation }) => {
         </View>
         <InvisibleButton
           onPress={() =>
-            navigation.navigate('Alterar Rua', { streetId: street.id })
+            navigation.navigate('Alterar Rua', {
+              streetId: street.id,
+              onGoBack: () => fetchStreet(),
+            })
           }
         >
           <Icon name="pencil" size={24} color="#000" />

@@ -68,7 +68,13 @@ const Cities = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <HeaderButton onPress={() => navigation.navigate('Novo Município')}>
+          <HeaderButton
+            onPress={() =>
+              navigation.navigate('Novo Município', {
+                onGoBack: () => fetchCities(),
+              })
+            }
+          >
             <HeaderButtonText>Novo Município</HeaderButtonText>
           </HeaderButton>
         </PageHeader>

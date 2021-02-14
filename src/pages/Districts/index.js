@@ -71,7 +71,13 @@ const Districts = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <HeaderButton onPress={() => navigation.navigate('Novo Bairro')}>
+          <HeaderButton
+            onPress={() =>
+              navigation.navigate('Novo Bairro', {
+                onGoBack: () => fetchDistricts(),
+              })
+            }
+          >
             <HeaderButtonText>Novo Bairro</HeaderButtonText>
           </HeaderButton>
           <HeaderButton onPress={() => navigation.navigate('Municípios')}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View } from 'react-native';
 import Select from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,15 +23,16 @@ const EvaluationDetails = ({ route, navigation }) => {
     rua: { bairro: { municipio: {} } },
   });
 
-  useEffect(() => {
-    const fetchEvaluation = async () => {
-      const { data } = await get(`/avaliacoes/${evaluationId}`);
-      if (data) {
-        setEvaluation(data);
-      }
-    };
-    fetchEvaluation();
+  const fetchEvaluation = useCallback(async () => {
+    const { data } = await get(`/avaliacoes/${evaluationId}`);
+    if (data) {
+      setEvaluation(data);
+    }
   }, [get, evaluationId]);
+
+  useEffect(() => {
+    fetchEvaluation();
+  }, [fetchEvaluation]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,6 +64,7 @@ const EvaluationDetails = ({ route, navigation }) => {
           onPress={() =>
             navigation.navigate('Alterar Avaliação', {
               evaluationId: evaluation.id,
+              onGoBack: () => fetchEvaluation(),
             })
           }
         >
