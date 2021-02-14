@@ -1,3 +1,4 @@
+export const HOJE = 'Hoje';
 export const SEMANAL = 'Semanal';
 export const MENSAL = 'Mensal';
 export const TRIMESTRAL = 'Trimestral';
@@ -11,3 +12,5 @@ export const periods = [
   { label: SEMESTRAL, value: SEMESTRAL, key: 4 },
   { label: ANUAL, value: ANUAL, key: 5 },
 ];
+
+export const fullPeriods = [{ label: HOJE, value: HOJE, key: 0 }, ...periods];

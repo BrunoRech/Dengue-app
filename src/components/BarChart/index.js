@@ -8,21 +8,34 @@ const BarChart = ({ data = [] }) => {
   return (
     <GraphContainer>
       <VictoryChart
-        padding={{ left: 80, right: 10, bottom: 100, top: 50 }}
+        padding={{ left: 80, right: 10, bottom: 150, top: 50 }}
         minDomain={{ y: 0 }}
         height={500}
-        horizontal
+        horizontal={data.length > 5}
         width={Dimensions.get('window').width - 20}
         theme={VictoryTheme.material}
         domainPadding={[50, 50]}
       >
         <VictoryBar
-          barWidth={25}
-          data={data.map(({ total, dia, mes, ano }) => ({
+          labels={({ datum }) => datum.total}
+          style={{
+            data: {
+              fill: '#000',
+              stroke: '#000',
+              fillOpacity: 0.7,
+              strokeWidth: 3,
+            },
+            labels: {
+              fontSize: 15,
+              fill: '#000',
+            },
+          }}
+          data={data.map(({ total, dia, mes, ano, nome }) => ({
             total,
-            data: buildDate(dia, mes, ano),
+            data: mes ? buildDate(dia, mes, ano) : null,
+            nome,
           }))}
-          x="data"
+          x={data[0] && data[0].mes ? 'data' : 'nome'}
           y="total"
         />
       </VictoryChart>
