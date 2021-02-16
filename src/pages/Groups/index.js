@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Alert, FlatList, RefreshControl, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { UseApi } from '../../hooks';
 import {
@@ -17,6 +18,7 @@ const Groups = ({ navigation }) => {
   const { get, destroy } = UseApi();
   const [groups, setGroups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [isAdmin, setAdmin] = useState(null);
 
   const fetchGroups = useCallback(async () => {
     setRefreshing(true);
@@ -26,6 +28,11 @@ const Groups = ({ navigation }) => {
   }, [get]);
 
   useEffect(() => {
+    const getPrivileges = async () => {
+      const response = await AsyncStorage.getItem('isAdmin');
+      setAdmin(response);
+    };
+    getPrivileges();
     fetchGroups();
   }, [fetchGroups]);
 
@@ -67,15 +74,17 @@ const Groups = ({ navigation }) => {
     <AppContainer>
       <View>
         <PageHeader multi="true">
-          <HeaderButton
-            onPress={() =>
-              navigation.navigate('Novo Grupo', {
-                onGoBack: () => fetchGroups(),
-              })
-            }
-          >
-            <HeaderButtonText>Novo Grupo</HeaderButtonText>
-          </HeaderButton>
+          {isAdmin === 'true' && (
+            <HeaderButton
+              onPress={() =>
+                navigation.navigate('Novo Grupo', {
+                  onGoBack: () => fetchGroups(),
+                })
+              }
+            >
+              <HeaderButtonText>Novo Grupo</HeaderButtonText>
+            </HeaderButton>
+          )}
         </PageHeader>
       </View>
       <FlatList

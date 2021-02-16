@@ -130,7 +130,15 @@ const AgentForm = ({ route, navigation }) => {
             autoCorrect={false}
             value={formData.cpf}
             placeholder="CPF"
-            onChangeText={cpf => setFormData({ ...formData, cpf })}
+            onChangeText={cpf =>
+              setFormData({
+                ...formData,
+                cpf: cpf
+                  .replace(/[^\d]/g, '')
+                  .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+                  .substr(0, 14),
+              })
+            }
           />
           <InputTexto
             autoCapitalize="none"

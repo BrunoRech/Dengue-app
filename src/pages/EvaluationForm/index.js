@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Select from 'react-native-picker-select';
+import moment from 'moment';
 import { UseApi } from '../../hooks';
 import {
   AppContainer,
@@ -15,10 +16,12 @@ const EvaluationForm = ({ route, navigation }) => {
   const { evaluationId, onGoBack } = route.params || {};
   const { post, get, put } = UseApi();
   const [refreshing, setRefreshing] = useState(false);
-  const [formData, setFormData] = useState({});
   const [oldEvaluation, setOldEvaluation] = useState({});
   const [agents, setAgents] = useState([]);
   const [streets, setStreets] = useState([]);
+  const [formData, setFormData] = useState({
+    horario: `${moment().hour()}:${moment().minute()}`,
+  });
 
   useEffect(() => {
     const fetchAgents = async () => {
@@ -136,9 +139,10 @@ const EvaluationForm = ({ route, navigation }) => {
           onChangeText={focos => setFormData({ ...formData, focos })}
         />
         <InputTexto
+          editable={false}
           autoCapitalize="none"
           autoCorrect={false}
-          value={formData.horario}
+          value={`Horário: ${formData.horario}`}
           placeholder="Horário"
           onChangeText={horario => setFormData({ ...formData, horario })}
         />
