@@ -10,6 +10,7 @@ import {
   ListText,
   HeaderButton,
   HeaderButtonText,
+  ListTextButton,
 } from '../../styles';
 
 const Groups = ({ navigation }) => {
@@ -51,11 +52,11 @@ const Groups = ({ navigation }) => {
 
   const renderItem = ({ nome, id }) => (
     <ListItem key={id}>
-      <InvisibleButton
+      <ListTextButton
         onPress={() => navigation.navigate('Detalhes Grupo', { groupId: id })}
       >
         <ListText>{nome}</ListText>
-      </InvisibleButton>
+      </ListTextButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
         <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>

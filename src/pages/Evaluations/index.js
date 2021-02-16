@@ -9,6 +9,7 @@ import {
   InvisibleButton,
   ListItem,
   ListText,
+  ListTextButton,
   PageHeader,
 } from '../../styles';
 
@@ -53,7 +54,7 @@ const Evaluations = ({ navigation }) => {
 
   const renderItem = ({ id, focos, rua, numero }) => (
     <ListItem key={id}>
-      <InvisibleButton
+      <ListTextButton
         onPress={() =>
           navigation.navigate('Detalhes Avaliação', { evaluationId: id })
         }
@@ -65,7 +66,7 @@ const Evaluations = ({ navigation }) => {
           </ListText>
           <ListText>{focos} Focos</ListText>
         </View>
-      </InvisibleButton>
+      </ListTextButton>
       <InvisibleButton onPress={() => onDeletePressed(rua.nome, numero, id)}>
         <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>

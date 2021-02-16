@@ -11,6 +11,7 @@ import {
   HeaderButton,
   ListText,
   HeaderButtonText,
+  ListTextButton,
 } from '../../styles';
 
 const Agents = ({ navigation }) => {
@@ -58,14 +59,14 @@ const Agents = ({ navigation }) => {
 
   const renderItem = ({ nome, cpf, id }) => (
     <ListItem key={id}>
-      <InvisibleButton
+      <ListTextButton
         onPress={() => navigation.navigate('Detalhes Agente', { agentId: id })}
       >
         <View>
           <ListText>{nome}</ListText>
           <ListText>{cpf}</ListText>
         </View>
-      </InvisibleButton>
+      </ListTextButton>
       <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
         <Icon name="trash" size={24} color="#000" />
       </InvisibleButton>

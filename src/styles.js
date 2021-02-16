@@ -160,6 +160,14 @@ export const InvisibleButton = styled(Button)`
   margin: 5px 10px;
 `;
 
+export const ListTextButton = styled(InvisibleButton)`
+  min-width: 85%;
+  max-width: 85%;
+  text-align: left;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
 export const ListItem = styled(View)`
   border: 2px solid #000;
   border-radius: 10px;
