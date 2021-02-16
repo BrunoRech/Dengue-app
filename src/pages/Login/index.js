@@ -20,10 +20,7 @@ const Login = ({ navigation }) => {
   const { post } = UseApi();
   const [isAdmin, setIsAdmin] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [formData, setFormData] = useState({
-    email: 'email@email.com',
-    senha: '123',
-  });
+  const [formData, setFormData] = useState({});
 
   const handleLogin = async () => {
     let data;

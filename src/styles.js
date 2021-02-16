@@ -20,14 +20,13 @@ export const BlackText = styled(Text)`
 `;
 
 export const Logo = styled(ImageBackground)`
-  width: 200px;
-  height: 200px;
-  margin: 60px 0px;
+  width: 150px;
+  height: 150px;
+  margin: 30px 0px 10px;
 `;
 
 export const AppContainer = styled(SafeAreaView)`
-  width: ${Dimensions.get('window').width}px;
-  height: ${Dimensions.get('window').height}px;
+  margin-bottom: 20px;
 `;
 
 export const InputTexto = styled(TextInput)`
@@ -36,6 +35,22 @@ export const InputTexto = styled(TextInput)`
   margin-bottom: 20px;
   border-radius: 5px;
   font-size: 18px;
+`;
+
+export const InputGroup = styled(View)`
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: ${Dimensions.get('window').width - 50}px;
+`;
+
+export const InputHour = styled(InputTexto)`
+  width: 100%;
+  margin-top: 10px;
+`;
+
+export const InputGroupItem = styled(InputTexto)`
+  width: 45%;
 `;
 
 export const GraphContainer = styled(View)`

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { ScrollView, View } from 'react-native';
 import Select from 'react-native-picker-select';
+import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BarChart, Description } from '../../components';
 import { periods, SEMANAL } from '../../utils/constants';
@@ -67,6 +68,10 @@ const EvaluationDetails = ({ route, navigation }) => {
             <Description name="Número:" value={evaluation.numero} />
             <Description name="Morador:" value={evaluation.morador} />
             <Description name="Nº Focos:" value={evaluation.focos} />
+            <Description
+              name="Data:"
+              value={moment(evaluation.dataAvaliacao).format('DD/MM/YYYY')}
+            />
           </View>
           <InvisibleButton
             onPress={() =>
