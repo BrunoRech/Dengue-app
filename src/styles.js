@@ -4,6 +4,7 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
@@ -113,7 +114,7 @@ export const CheckBoxContainer = styled(View)`
   margin-bottom: 30px;
 `;
 
-export const FlexContainer = styled(View)`
+export const FlexContainer = styled(KeyboardAvoidingView)`
   display: flex;
   justify-content: center;
   align-items: center;
