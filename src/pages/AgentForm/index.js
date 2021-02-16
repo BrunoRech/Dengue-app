@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-datepicker';
 import Select from 'react-native-picker-select';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import moment from 'moment';
 import { UseApi } from '../../hooks';
 import {
@@ -101,82 +101,84 @@ const AgentForm = ({ route, navigation }) => {
 
   return (
     <AppContainer>
-      <Spinner visible={refreshing} textContent="Aguarde..." />
-      <FormContainer>
-        <InputTexto
-          placeholder="Nome"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={nome => setFormData({ ...formData, nome })}
-          value={formData.nome}
-        />
-        <InputTexto
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={formData.senha}
-          placeholder="Senha"
-          onChangeText={senha => setFormData({ ...formData, senha })}
-        />
-        <InputTexto
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={formData.email}
-          placeholder="E-mail"
-          onChangeText={email => setFormData({ ...formData, email })}
-        />
-        <InputTexto
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={formData.cpf}
-          placeholder="CPF"
-          onChangeText={cpf => setFormData({ ...formData, cpf })}
-        />
-        <InputTexto
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={formData.telefone}
-          placeholder="Telefone"
-          onChangeText={telefone => setFormData({ ...formData, telefone })}
-        />
-        <SelectContainer>
-          <Select
-            value={formData.grupoId}
-            onValueChange={grupoId => setFormData({ ...formData, grupoId })}
-            items={groups}
-            placeholder={{
-              value: formData.grupoId,
-              label: 'Selecione um grupo',
-            }}
+      <ScrollView>
+        <Spinner visible={refreshing} textContent="Aguarde..." />
+        <FormContainer>
+          <InputTexto
+            placeholder="Nome"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={nome => setFormData({ ...formData, nome })}
+            value={formData.nome}
           />
-        </SelectContainer>
-        <DatePickerContainer>
-          <View>
-            <Text>Data Nascimento</Text>
-            <DatePicker
-              date={formData.dataNascimento}
-              format="DD/MM/YYYY"
-              minDate="01/01/2020"
-              onDateChange={dataNascimento =>
-                setFormData({ ...formData, dataNascimento })
-              }
+          <InputTexto
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={formData.senha}
+            placeholder="Senha"
+            onChangeText={senha => setFormData({ ...formData, senha })}
+          />
+          <InputTexto
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={formData.email}
+            placeholder="E-mail"
+            onChangeText={email => setFormData({ ...formData, email })}
+          />
+          <InputTexto
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={formData.cpf}
+            placeholder="CPF"
+            onChangeText={cpf => setFormData({ ...formData, cpf })}
+          />
+          <InputTexto
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={formData.telefone}
+            placeholder="Telefone"
+            onChangeText={telefone => setFormData({ ...formData, telefone })}
+          />
+          <SelectContainer>
+            <Select
+              value={formData.grupoId}
+              onValueChange={grupoId => setFormData({ ...formData, grupoId })}
+              items={groups}
+              placeholder={{
+                value: formData.grupoId,
+                label: 'Selecione um grupo',
+              }}
             />
-          </View>
-          <View>
-            <Text>Data Ingresso</Text>
-            <DatePicker
-              date={formData.dataIngresso}
-              format="DD/MM/YYYY"
-              minDate="01/01/2020"
-              onDateChange={dataIngresso =>
-                setFormData({ ...formData, dataIngresso })
-              }
-            />
-          </View>
-        </DatePickerContainer>
-        <Button onPress={handleSubmit}>
-          <ButtonText>{agentId ? 'Alterar' : 'Cadastrar'}</ButtonText>
-        </Button>
-      </FormContainer>
+          </SelectContainer>
+          <DatePickerContainer>
+            <View>
+              <Text>Data Nascimento</Text>
+              <DatePicker
+                date={formData.dataNascimento}
+                format="DD/MM/YYYY"
+                minDate="01/01/2020"
+                onDateChange={dataNascimento =>
+                  setFormData({ ...formData, dataNascimento })
+                }
+              />
+            </View>
+            <View>
+              <Text>Data Ingresso</Text>
+              <DatePicker
+                date={formData.dataIngresso}
+                format="DD/MM/YYYY"
+                minDate="01/01/2020"
+                onDateChange={dataIngresso =>
+                  setFormData({ ...formData, dataIngresso })
+                }
+              />
+            </View>
+          </DatePickerContainer>
+          <Button onPress={handleSubmit}>
+            <ButtonText>{agentId ? 'Alterar' : 'Cadastrar'}</ButtonText>
+          </Button>
+        </FormContainer>
+      </ScrollView>
     </AppContainer>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Select from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BarChart, Description } from '../../components';
@@ -54,46 +54,48 @@ const EvaluationDetails = ({ route, navigation }) => {
 
   return (
     <AppContainer>
-      <Spinner visible={refreshing} textContent="Aguarde..." />
-      <DetailsContainer>
-        <View>
-          <Description
-            name="Município:"
-            value={evaluation.rua.bairro.municipio.nome}
-          />
-          <Description name="Bairro:" value={evaluation.rua.bairro.nome} />
-          <Description name="Rua:" value={evaluation.rua.nome} />
-          <Description name="Número:" value={evaluation.numero} />
-          <Description name="Morador:" value={evaluation.morador} />
-          <Description name="Nº Focos:" value={evaluation.focos} />
-        </View>
-        <InvisibleButton
-          onPress={() =>
-            navigation.navigate('Alterar Avaliação', {
-              evaluationId: evaluation.id,
-              onGoBack: () => fetchEvaluation(),
-            })
-          }
-        >
-          <Icon name="pencil" size={24} color="#000" />
-        </InvisibleButton>
-      </DetailsContainer>
+      <ScrollView>
+        <Spinner visible={refreshing} textContent="Aguarde..." />
+        <DetailsContainer>
+          <View>
+            <Description
+              name="Município:"
+              value={evaluation.rua.bairro.municipio.nome}
+            />
+            <Description name="Bairro:" value={evaluation.rua.bairro.nome} />
+            <Description name="Rua:" value={evaluation.rua.nome} />
+            <Description name="Número:" value={evaluation.numero} />
+            <Description name="Morador:" value={evaluation.morador} />
+            <Description name="Nº Focos:" value={evaluation.focos} />
+          </View>
+          <InvisibleButton
+            onPress={() =>
+              navigation.navigate('Alterar Avaliação', {
+                evaluationId: evaluation.id,
+                onGoBack: () => fetchEvaluation(),
+              })
+            }
+          >
+            <Icon name="pencil" size={24} color="#000" />
+          </InvisibleButton>
+        </DetailsContainer>
 
-      <FlexContainerMini>
-        <BlackText>Histórico de Focos</BlackText>
-        <ChartSelectContainer>
-          <Select
-            value={period}
-            onValueChange={value => setPeriod(value)}
-            items={periods}
-            placeholder={{
-              value: period,
-              label: 'Período',
-            }}
-          />
-        </ChartSelectContainer>
-      </FlexContainerMini>
-      <BarChart data={graphData} />
+        <FlexContainerMini>
+          <BlackText>Histórico de Focos</BlackText>
+          <ChartSelectContainer>
+            <Select
+              value={period}
+              onValueChange={value => setPeriod(value)}
+              items={periods}
+              placeholder={{
+                value: period,
+                label: 'Período',
+              }}
+            />
+          </ChartSelectContainer>
+        </FlexContainerMini>
+        <BarChart data={graphData} />
+      </ScrollView>
     </AppContainer>
   );
 };

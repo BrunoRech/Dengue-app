@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Select from 'react-native-picker-select';
 import { UseApi } from '../../hooks';
 import { BarChart, Description } from '../../components';
@@ -50,38 +50,40 @@ const CityDetails = ({ route, navigation }) => {
 
   return (
     <AppContainer>
-      <Spinner visible={refreshing} textContent="Aguarde..." />
-      <DetailsContainer>
-        <View>
-          <Description name="Nome:" value={city.nome} />
-        </View>
-        <InvisibleButton
-          onPress={() =>
-            navigation.navigate('Alterar Município', {
-              cityId: city.id,
-              onGoBack: () => fetchCity(),
-            })
-          }
-        >
-          <Icon name="pencil" size={24} color="#000" />
-        </InvisibleButton>
-      </DetailsContainer>
+      <ScrollView>
+        <Spinner visible={refreshing} textContent="Aguarde..." />
+        <DetailsContainer>
+          <View>
+            <Description name="Nome:" value={city.nome} />
+          </View>
+          <InvisibleButton
+            onPress={() =>
+              navigation.navigate('Alterar Município', {
+                cityId: city.id,
+                onGoBack: () => fetchCity(),
+              })
+            }
+          >
+            <Icon name="pencil" size={24} color="#000" />
+          </InvisibleButton>
+        </DetailsContainer>
 
-      <FlexContainerMini>
-        <BlackText>Número de Focos</BlackText>
-        <ChartSelectContainer>
-          <Select
-            value={period}
-            onValueChange={value => setPeriod(value)}
-            items={periods}
-            placeholder={{
-              value: period,
-              label: 'Período',
-            }}
-          />
-        </ChartSelectContainer>
-      </FlexContainerMini>
-      <BarChart data={graphData} />
+        <FlexContainerMini>
+          <BlackText>Número de Focos</BlackText>
+          <ChartSelectContainer>
+            <Select
+              value={period}
+              onValueChange={value => setPeriod(value)}
+              items={periods}
+              placeholder={{
+                value: period,
+                label: 'Período',
+              }}
+            />
+          </ChartSelectContainer>
+        </FlexContainerMini>
+        <BarChart data={graphData} />
+      </ScrollView>
     </AppContainer>
   );
 };

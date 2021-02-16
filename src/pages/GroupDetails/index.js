@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { UseApi } from '../../hooks';
 import { BarChart, Description } from '../../components';
 import { periods, SEMANAL } from '../../utils/constants';
@@ -50,38 +50,40 @@ const GroupDetails = ({ route, navigation }) => {
 
   return (
     <AppContainer>
-      <Spinner visible={refreshing} textContent="Aguarde..." />
-      <DetailsContainer>
-        <View>
-          <Description name="Nome:" value={group.nome} />
-        </View>
-        <InvisibleButton
-          onPress={() =>
-            navigation.navigate('Alterar Grupo', {
-              onGoBack: () => fetchGroup(),
-              groupId: group.id,
-            })
-          }
-        >
-          <Icon name="pencil" size={24} color="#000" />
-        </InvisibleButton>
-      </DetailsContainer>
+      <ScrollView>
+        <Spinner visible={refreshing} textContent="Aguarde..." />
+        <DetailsContainer>
+          <View>
+            <Description name="Nome:" value={group.nome} />
+          </View>
+          <InvisibleButton
+            onPress={() =>
+              navigation.navigate('Alterar Grupo', {
+                onGoBack: () => fetchGroup(),
+                groupId: group.id,
+              })
+            }
+          >
+            <Icon name="pencil" size={24} color="#000" />
+          </InvisibleButton>
+        </DetailsContainer>
 
-      <FlexContainerMini>
-        <BlackText>Histórico de Visitas</BlackText>
-        <ChartSelectContainer>
-          <Select
-            value={period}
-            onValueChange={value => setPeriod(value)}
-            items={periods}
-            placeholder={{
-              value: period,
-              label: 'Período',
-            }}
-          />
-        </ChartSelectContainer>
-      </FlexContainerMini>
-      <BarChart data={graphData} />
+        <FlexContainerMini>
+          <BlackText>Histórico de Visitas</BlackText>
+          <ChartSelectContainer>
+            <Select
+              value={period}
+              onValueChange={value => setPeriod(value)}
+              items={periods}
+              placeholder={{
+                value: period,
+                label: 'Período',
+              }}
+            />
+          </ChartSelectContainer>
+        </FlexContainerMini>
+        <BarChart data={graphData} />
+      </ScrollView>
     </AppContainer>
   );
 };
