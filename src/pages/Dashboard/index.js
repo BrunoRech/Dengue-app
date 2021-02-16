@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { ScrollView } from 'react-native';
 import Select from 'react-native-picker-select';
 import { BarChart } from '../../components';
@@ -13,6 +14,7 @@ import {
 
 const Dashboard = () => {
   const { get } = useApi();
+  const [refreshing, setRefreshing] = useState(false);
   const [streetPeriod, setStreetPeriod] = useState(HOJE);
   const [districtPeriod, setDistrictPeriod] = useState(HOJE);
   const [cityPeriod, setCityPeriod] = useState(HOJE);
@@ -26,50 +28,60 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get('/ruas/focos', null, {
         headers: { periodo: streetPeriod },
       });
       setStreetData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, streetPeriod]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get('/bairros/focos', null, {
         headers: { periodo: districtPeriod },
       });
       setDistrictData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, districtPeriod]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get('/municipios/focos', null, {
         headers: { periodo: cityPeriod },
       });
       setCityData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, cityPeriod]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get('/grupos/visitas', null, {
         headers: { periodo: groupPeriod },
       });
       setGroupData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, groupPeriod]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get('/agentes/visitas', null, {
         headers: { periodo: agentPeriod },
       });
       setAgentData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, agentPeriod]);
@@ -77,6 +89,7 @@ const Dashboard = () => {
   return (
     <AppContainer>
       <ScrollView>
+        <Spinner visible={refreshing} textContent="Aguarde..." />
         <FlexContainerMini>
           <BlackText>Focos por Rua</BlackText>
           <ChartSelectContainer>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import { View } from 'react-native';
@@ -17,15 +18,18 @@ import {
 const DistrictDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { districtId } = route.params;
+  const [refreshing, setRefreshing] = useState(false);
   const [district, setDistrict] = useState({ municipio: {} });
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
 
   const fetchDistrict = useCallback(async () => {
+    setRefreshing(true);
     const { data } = await get(`/bairros/${districtId}`);
     if (data) {
       setDistrict(data);
     }
+    setRefreshing(false);
   }, [get, districtId]);
 
   useEffect(() => {
@@ -34,16 +38,19 @@ const DistrictDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get(`/bairros/${districtId}/focos`, null, {
         headers: { periodo: period },
       });
       setGraphData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, period, districtId]);
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <DetailsContainer>
         <View>
           <Description name="Nome:" value={district.nome} />

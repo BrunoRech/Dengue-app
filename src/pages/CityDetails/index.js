@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { View } from 'react-native';
 import Select from 'react-native-picker-select';
 import { UseApi } from '../../hooks';
@@ -18,14 +19,17 @@ const CityDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { cityId } = route.params;
   const [city, setCity] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
 
   const fetchCity = useCallback(async () => {
+    setRefreshing(true);
     const { data } = await get(`/municipios/${cityId}`);
     if (data) {
       setCity(data);
     }
+    setRefreshing(false);
   }, [get, cityId]);
 
   useEffect(() => {
@@ -34,16 +38,19 @@ const CityDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get(`/municipios/${cityId}/focos`, null, {
         headers: { periodo: period },
       });
       setGraphData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, period, cityId]);
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <DetailsContainer>
         <View>
           <Description name="Nome:" value={city.nome} />

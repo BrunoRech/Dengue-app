@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { View } from 'react-native';
 import Select from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,6 +18,7 @@ import {
 const EvaluationDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { evaluationId } = route.params;
+  const [refreshing, setRefreshing] = useState(false);
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
   const [evaluation, setEvaluation] = useState({
@@ -24,10 +26,12 @@ const EvaluationDetails = ({ route, navigation }) => {
   });
 
   const fetchEvaluation = useCallback(async () => {
+    setRefreshing(true);
     const { data } = await get(`/avaliacoes/${evaluationId}`);
     if (data) {
       setEvaluation(data);
     }
+    setRefreshing(false);
   }, [get, evaluationId]);
 
   useEffect(() => {
@@ -36,10 +40,12 @@ const EvaluationDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get(`/ruas/${evaluation.rua.id}/focos`, null, {
         headers: { periodo: period },
       });
       setGraphData(data);
+      setRefreshing(false);
     };
     if (evaluation.rua.id) {
       fetchData();
@@ -48,6 +54,7 @@ const EvaluationDetails = ({ route, navigation }) => {
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <DetailsContainer>
         <View>
           <Description

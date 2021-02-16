@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import { View } from 'react-native';
@@ -17,15 +18,18 @@ import { periods, SEMANAL } from '../../utils/constants';
 const StreetDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { streetId } = route.params;
+  const [refreshing, setRefreshing] = useState(false);
   const [street, setStreet] = useState({ bairro: { municipio: {} } });
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
 
   const fetchStreet = useCallback(async () => {
+    setRefreshing(true);
     const { data } = await get(`/ruas/${streetId}`);
     if (data) {
       setStreet(data);
     }
+    setRefreshing(false);
   }, [get, streetId]);
 
   useEffect(() => {
@@ -34,16 +38,19 @@ const StreetDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get(`/ruas/${streetId}/focos`, null, {
         headers: { periodo: period },
       });
       setGraphData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, period, streetId]);
 
   return (
     <AppContainer>
+      <Spinner visible={refreshing} textContent="Aguarde..." />
       <DetailsContainer>
         <View>
           <Description name="Nome:" value={street.nome} />

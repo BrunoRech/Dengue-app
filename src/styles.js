@@ -22,7 +22,7 @@ export const BlackText = styled(Text)`
 export const Logo = styled(ImageBackground)`
   width: 200px;
   height: 200px;
-  margin-bottom: 60px;
+  margin: 60px 0px;
 `;
 
 export const AppContainer = styled(SafeAreaView)`
@@ -109,7 +109,7 @@ export const FlexContainerMini = styled(FlexContainer)`
   height: auto;
   flex-flow: row;
   justify-content: space-between;
-  padding: 10px;
+  padding: ${({ nopadding }) => (!nopadding ? '10px' : '0px')};
 `;
 
 export const FormContainer = styled(FlexContainer)`

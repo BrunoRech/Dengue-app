@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Select from 'react-native-picker-select';
 import moment from 'moment';
 import { ScrollView, View } from 'react-native';
@@ -19,6 +20,7 @@ import {
 const AgentDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { agentId } = route.params;
+  const [refreshing, setRefreshing] = useState(false);
   const [agent, setAgent] = useState({ grupo: {} });
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
@@ -33,10 +35,12 @@ const AgentDetails = ({ route, navigation }) => {
   });
 
   const fetchAgent = useCallback(async () => {
+    setRefreshing(true);
     const { data } = await get(`/agentes/${agentId}`);
     if (data) {
       setAgent(data);
     }
+    setRefreshing(false);
   }, [get, agentId]);
 
   useEffect(() => {
@@ -45,10 +49,12 @@ const AgentDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setRefreshing(true);
       const { data } = await get(`/agentes/${agentId}/visitas`, null, {
         headers: { periodo: period },
       });
       setGraphData(data);
+      setRefreshing(false);
     };
     fetchData();
   }, [get, period, agentId]);
@@ -56,6 +62,7 @@ const AgentDetails = ({ route, navigation }) => {
   return (
     <AppContainer>
       <ScrollView>
+        <Spinner visible={refreshing} textContent="Aguarde..." />
         <DetailsContainer>
           <View>
             <Description name="Nome:" value={agent.nome} />

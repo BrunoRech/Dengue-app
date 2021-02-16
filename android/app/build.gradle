@@ -153,6 +153,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+        storeFile file('tcc.keystore')
+        storePassword '123456'
+        keyAlias 'tcc'
+        keyPassword '123456'
+      }
     }
     buildTypes {
         debug {

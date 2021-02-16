@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, CheckBox, TouchableOpacity } from 'react-native';
+import { View, CheckBox, TouchableOpacity, ScrollView } from 'react-native';
 import mosquitoSvg from '../../assets/images/mosquito.png';
 import { UseApi } from '../../hooks';
 import {
@@ -46,40 +46,42 @@ const Login = ({ navigation }) => {
 
   return (
     <AppContainer>
-      <FlexContainer>
-        <Logo source={mosquitoSvg} />
-        <Spinner visible={refreshing} textContent="Aguarde..." />
-        <View>
-          <InputTexto
-            placeholder="E-mail"
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={email => setFormData({ ...formData, email })}
-            value={formData.email}
-          />
-          <InputTexto
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={formData.senha}
-            placeholder="Senha"
-            onChangeText={senha => setFormData({ ...formData, senha })}
-            secureTextEntry
-          />
-          <CheckBoxContainer>
-            <FlexContainerMini>
-              <CheckBox value={isAdmin} onValueChange={setIsAdmin} />
-              <TouchableOpacity onPress={() => setIsAdmin(!isAdmin)}>
-                <BlackText>Coordenador</BlackText>
-              </TouchableOpacity>
-            </FlexContainerMini>
-          </CheckBoxContainer>
-        </View>
-        <View>
-          <Button onPress={handleLogin}>
-            <ButtonText>Entrar</ButtonText>
-          </Button>
-        </View>
-      </FlexContainer>
+      <ScrollView>
+        <FlexContainer>
+          <Logo source={mosquitoSvg} />
+          <Spinner visible={refreshing} textContent="Aguarde..." />
+          <View>
+            <InputTexto
+              placeholder="E-mail"
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={email => setFormData({ ...formData, email })}
+              value={formData.email}
+            />
+            <InputTexto
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={formData.senha}
+              placeholder="Senha"
+              onChangeText={senha => setFormData({ ...formData, senha })}
+              secureTextEntry
+            />
+            <CheckBoxContainer>
+              <FlexContainerMini nopadding>
+                <CheckBox value={isAdmin} onValueChange={setIsAdmin} />
+                <TouchableOpacity onPress={() => setIsAdmin(!isAdmin)}>
+                  <BlackText>Coordenador</BlackText>
+                </TouchableOpacity>
+              </FlexContainerMini>
+            </CheckBoxContainer>
+          </View>
+          <View>
+            <Button onPress={handleLogin}>
+              <ButtonText>Entrar</ButtonText>
+            </Button>
+          </View>
+        </FlexContainer>
+      </ScrollView>
     </AppContainer>
   );
 };
