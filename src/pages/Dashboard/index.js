@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native';
 import Select from 'react-native-picker-select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarChart } from '../../components';
 import useApi from '../../hooks/useApi';
 import { HOJE, fullPeriods } from '../../utils/constants';
@@ -10,9 +12,11 @@ import {
   BlackText,
   ChartSelectContainer,
   FlexContainerMini,
+  InvisibleButton,
+  RightPageHeader,
 } from '../../styles';
 
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
   const { get } = useApi();
   const [refreshing, setRefreshing] = useState(false);
   const [streetPeriod, setStreetPeriod] = useState(HOJE);
@@ -86,10 +90,29 @@ const Dashboard = () => {
     fetchData();
   }, [get, agentPeriod]);
 
+  const handleSettings = async () => {
+    const isAdmin = await AsyncStorage.getItem('isAdmin');
+    const id = await AsyncStorage.getItem('userId');
+
+    if (isAdmin === 'true') {
+      return navigation.navigate('Alterar Coordenador', {
+        adminId: Number(id),
+      });
+    }
+    return navigation.navigate('Alterar Agente', {
+      agentId: Number(id),
+    });
+  };
+
   return (
     <AppContainer>
       <ScrollView>
         <Spinner visible={refreshing} textContent="Aguarde..." />
+        <RightPageHeader>
+          <InvisibleButton onPress={handleSettings}>
+            <Icon name="cog" size={24} color="#000" />
+          </InvisibleButton>
+        </RightPageHeader>
         <FlexContainerMini>
           <BlackText>Focos por Rua</BlackText>
           <ChartSelectContainer>

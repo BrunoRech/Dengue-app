@@ -3,6 +3,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Select from 'react-native-picker-select';
 import { ScrollView, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UseApi } from '../../hooks';
 import { BarChart, Description } from '../../components';
 import { periods, SEMANAL } from '../../utils/constants';
@@ -19,6 +20,7 @@ const GroupDetails = ({ route, navigation }) => {
   const { get } = UseApi();
   const { groupId } = route.params;
   const [group, setGroup] = useState({});
+  const [isAdmin, setAdmin] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [period, setPeriod] = useState(SEMANAL);
   const [graphData, setGraphData] = useState([]);
@@ -33,6 +35,11 @@ const GroupDetails = ({ route, navigation }) => {
   }, [get, groupId]);
 
   useEffect(() => {
+    const getPrivileges = async () => {
+      const response = await AsyncStorage.getItem('isAdmin');
+      setAdmin(response);
+    };
+    getPrivileges();
     fetchGroup();
   }, [fetchGroup, groupId]);
 
@@ -56,16 +63,18 @@ const GroupDetails = ({ route, navigation }) => {
           <View>
             <Description name="Nome:" value={group.nome} />
           </View>
-          <InvisibleButton
-            onPress={() =>
-              navigation.navigate('Alterar Grupo', {
-                onGoBack: () => fetchGroup(),
-                groupId: group.id,
-              })
-            }
-          >
-            <Icon name="pencil" size={24} color="#000" />
-          </InvisibleButton>
+          {isAdmin === 'true' && (
+            <InvisibleButton
+              onPress={() =>
+                navigation.navigate('Alterar Grupo', {
+                  onGoBack: () => fetchGroup(),
+                  groupId: group.id,
+                })
+              }
+            >
+              <Icon name="pencil" size={24} color="#000" />
+            </InvisibleButton>
+          )}
         </DetailsContainer>
 
         <FlexContainerMini>

@@ -26,9 +26,7 @@ export const Logo = styled(ImageBackground)`
   margin: 30px 0px 10px;
 `;
 
-export const AppContainer = styled(SafeAreaView)`
-  margin-bottom: 20px;
-`;
+export const AppContainer = styled(SafeAreaView)``;
 
 export const InputTexto = styled(TextInput)`
   background-color: #fff;
@@ -202,4 +200,8 @@ export const PageHeader = styled(View)`
   flex-flow: row;
   justify-content: space-between;
   margin: 15px 10px 10px;
+`;
+
+export const RightPageHeader = styled(PageHeader)`
+  justify-content: flex-end;
 `;

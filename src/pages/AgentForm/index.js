@@ -73,7 +73,7 @@ const AgentForm = ({ route, navigation }) => {
       setRefreshing(false);
       if (data) {
         setOldAgent(data);
-        onGoBack();
+        if (onGoBack) onGoBack();
         navigation.goBack();
       }
     } else {
@@ -93,7 +93,7 @@ const AgentForm = ({ route, navigation }) => {
       setRefreshing(false);
       if (data) {
         setFormData({});
-        onGoBack();
+        if (onGoBack) onGoBack();
         navigation.goBack();
       }
     }
@@ -164,7 +164,6 @@ const AgentForm = ({ route, navigation }) => {
               <DatePicker
                 date={formData.dataNascimento}
                 format="DD/MM/YYYY"
-                minDate="01/01/2020"
                 onDateChange={dataNascimento =>
                   setFormData({ ...formData, dataNascimento })
                 }

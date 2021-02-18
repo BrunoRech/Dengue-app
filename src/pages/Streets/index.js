@@ -79,6 +79,9 @@ const Streets = ({ navigation }) => {
           <HeaderButton onPress={() => navigation.navigate('Bairros')}>
             <HeaderButtonText>Bairros</HeaderButtonText>
           </HeaderButton>
+          <HeaderButton onPress={() => navigation.navigate('Municípios')}>
+            <HeaderButtonText>Municípios</HeaderButtonText>
+          </HeaderButton>
         </PageHeader>
       </View>
       <FlatList

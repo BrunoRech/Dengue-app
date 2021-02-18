@@ -64,9 +64,11 @@ const Groups = ({ navigation }) => {
       >
         <ListText>{nome}</ListText>
       </ListTextButton>
-      <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
-        <Icon name="trash" size={24} color="#000" />
-      </InvisibleButton>
+      {isAdmin === 'true' && (
+        <InvisibleButton onPress={() => onDeletePressed(nome, id)}>
+          <Icon name="trash" size={24} color="#000" />
+        </InvisibleButton>
+      )}
     </ListItem>
   );
 

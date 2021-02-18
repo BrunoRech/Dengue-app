@@ -18,9 +18,12 @@ import {
 
 const Login = ({ navigation }) => {
   const { post } = UseApi();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    email: 'email@email.com',
+    senha: '123',
+  });
 
   const handleLogin = async () => {
     let data;
@@ -34,6 +37,7 @@ const Login = ({ navigation }) => {
     }
     if (data && data.token) {
       await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('userId', `${data.id}`);
       await AsyncStorage.setItem('isAdmin', `${isAdmin}`);
       setRefreshing(false);
       navigation.navigate('Dashboard');

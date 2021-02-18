@@ -5,11 +5,13 @@ import { GraphContainer } from '../../styles';
 import { buildDate } from '../../utils';
 
 const BarChart = ({ data = [], noPadding }) => {
+  let left = data.length > 5 ? 120 : 40;
+  left = data[0] && data[0].mes ? 80 : left;
   return (
     <GraphContainer>
       <VictoryChart
         padding={{
-          left: 80,
+          left,
           right: 10,
           bottom: noPadding ? 50 : 150,
           top: 50,

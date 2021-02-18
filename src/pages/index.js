@@ -6,6 +6,7 @@ import Streets from './Streets';
 import CityForm from './CityForm';
 import Dashboard from './Dashboard';
 import GroupForm from './GroupForm';
+import AdminForm from './AdminForm';
 import AgentForm from './AgentForm';
 import Districts from './Districts';
 import StreetForm from './StreetForm';
@@ -26,6 +27,7 @@ export {
   Agents,
   Streets,
   CityForm,
+  AdminForm,
   AgentForm,
   Dashboard,
   Districts,

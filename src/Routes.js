@@ -24,6 +24,7 @@ import {
   DistrictDetails,
   Cities,
   CityDetails,
+  AdminForm,
 } from './pages';
 
 const Routes = () => {
@@ -70,6 +71,7 @@ const Routes = () => {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Dashboard" component={TabStack} />
+        <Stack.Screen name="Alterar Coordenador" component={AdminForm} />
         <Stack.Screen name="Alterar Agente" component={AgentForm} />
         <Stack.Screen name="Alterar Avaliação" component={EvaluationForm} />
         <Stack.Screen name="Alterar Grupo" component={GroupForm} />
